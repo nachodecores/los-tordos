@@ -1,13 +1,13 @@
 import Buy from "@/components/Buy";
 import Hero from "@/components/Hero";
-import Usage from "@/components/Usage";
+import Clients from "@/components/Clients";
 
 export default function Home() {
   return (
     <>
       <Hero />
       <Buy />
-      <Usage />
+      <Clients />
     </>
   );
 }

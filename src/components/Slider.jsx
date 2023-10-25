@@ -2,41 +2,55 @@
 import Slick from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import image1 from "../../public/asado.jpg";
-import image2 from "../../public/asado2.jpg";
-import image3 from "../../public/postre.jpg";
+import Image from "next/image";
+import image1 from "../../public/image1.jpg";
+import image2 from "../../public/image2.jpg";
+import image3 from "../../public/image3.jpg";
+import image4 from "../../public/image4.jpg";
+import image5 from "../../public/image5.jpg";
+import image6 from "../../public/image6.jpg";
+import image7 from "../../public/image7.jpg";
+import image8 from "../../public/image8.jpg";
+import image9 from "../../public/image9.jpg";
 
 export default function Slider() {
   var settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 2000,
     slidesToShow: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 4000,
   };
   return (
     <Slick {...settings}>
-      <div
-        style={{ backgroundImage: `url('${image1}')` }}
-        className="bg-slate-400 w-full h-[100vh]"
-      >
-        1
+      <div className="w-full h-[100vh]">
+        <Image src={image1} alt="Imagen uno" />
       </div>
-      <div className="bg-slate-600 w-full h-[100vh]">1</div>
-      <div className="bg-slate-800 w-full h-[100vh]">1</div>
-      {/* <div
-        style={{ backgroundImage: `url('${image1}')` }}
-        className="h-[100vh] w-full bg-cover bg-center"
-      ></div>
-      <div
-        style={{ backgroundImage: `url('${image2}')` }}
-        className="relative h-[100vh] w-full bg-cover bg-center tablet:bg-fixed grid justify-center tablet:justify-end items-end"
-      ></div>
-      <div
-        style={{ backgroundImage: `url('${image3}')` }}
-        className="relative h-[100vh] w-full bg-cover bg-center tablet:bg-fixed grid justify-center tablet:justify-end items-end"
-      ></div> */}
+      <div className="w-full h-[100vh]">
+        <Image src={image2} alt="Imagen uno" />
+      </div>
+      <div className="w-full h-[100vh]">
+        <Image src={image3} alt="Imagen uno" />
+      </div>
+      <div className="w-full h-[100vh]">
+        <Image src={image4} alt="Imagen uno" />
+      </div>
+      <div className="w-full h-[100vh]">
+        <Image src={image5} alt="Imagen uno" />
+      </div>
+      <div className="w-full h-[100vh]">
+        <Image src={image6} alt="Imagen uno" />
+      </div>
+      <div className="w-full h-[100vh]">
+        <Image src={image7} alt="Imagen uno" />
+      </div>
+      <div className="w-full h-[100vh]">
+        <Image src={image8} alt="Imagen uno" />
+      </div>
+      <div className="w-full h-[100vh]">
+        <Image src={image9} alt="Imagen uno" />
+      </div>
     </Slick>
   );
 }
