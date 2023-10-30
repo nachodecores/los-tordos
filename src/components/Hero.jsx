@@ -28,15 +28,7 @@ export default function Hero() {
             padding: "30px",
           }}
         >
-          <h1
-            className="knockout"
-            style={{
-              fontSize: "100px",
-              color: "black",
-            }}
-          >
-            TENÉS QUESO
-          </h1>
+          <h1 className="inter text-8xl text-colorpurple">TENÉS QUESO</h1>
         </div>
       </div>
     </>
