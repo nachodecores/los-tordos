@@ -15,6 +15,8 @@ import image9 from "../../public/image9.jpg";
 
 export default function Slider() {
   var settings = {
+    adaptiveHeight: true,
+    arrows: false,
     dots: true,
     infinite: true,
     speed: 2000,
@@ -24,31 +26,31 @@ export default function Slider() {
   };
   return (
     <Slick {...settings}>
-      <div className="w-full h-[100vh]">
+      <div className="w-full h-1/2">
         <Image src={image1} alt="Imagen uno" />
       </div>
-      <div className="w-full h-[100vh]">
+      <div className="w-full h-1/2">
         <Image src={image2} alt="Imagen uno" />
       </div>
-      <div className="w-full h-[100vh]">
+      <div className="w-full h-1/2">
         <Image src={image3} alt="Imagen uno" />
       </div>
-      <div className="w-full h-[100vh]">
+      <div className="w-full h-1/2">
         <Image src={image4} alt="Imagen uno" />
       </div>
-      <div className="w-full h-[100vh]">
+      <div className="w-full h-1/2">
         <Image src={image5} alt="Imagen uno" />
       </div>
-      <div className="w-full h-[100vh]">
+      <div className="w-full h-1/2">
         <Image src={image6} alt="Imagen uno" />
       </div>
-      <div className="w-full h-[100vh]">
+      <div className="w-full h-1/2">
         <Image src={image7} alt="Imagen uno" />
       </div>
-      <div className="w-full h-[100vh]">
+      <div className="w-full h-1/2">
         <Image src={image8} alt="Imagen uno" />
       </div>
-      <div className="w-full h-[100vh]">
+      <div className="w-full h-1/2">
         <Image src={image9} alt="Imagen uno" />
       </div>
     </Slick>
