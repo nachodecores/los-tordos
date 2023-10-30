@@ -4,7 +4,7 @@ import Image from "next/image";
 import logoletras from "../../public/logoletras.jpg";
 
 export default function Navbar() {
-  <nav className="flex justify-center px-10 py-6">
+  <nav className="flex justify-center px-10 py-6 h-24 bg-colorblue">
     <Link href="/">
       <Image
         src={logoletras}

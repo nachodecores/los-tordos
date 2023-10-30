@@ -20,7 +20,7 @@ export default function Slider() {
     dots: true,
     infinite: true,
     speed: 2000,
-    slidesToShow: 1,
+    slidesToShow: 3,
     autoplay: true,
     autoplaySpeed: 4000,
   };
