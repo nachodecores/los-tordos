@@ -1,33 +1,20 @@
-import Image from "next/image";
-import heroImage from "../../public/heroimage.jpg";
-
 export default function Hero() {
   return (
-    <>
-      <div
-        className="relative"
-        style={{
-          // use relative position for the parent div
-          width: "100vw",
-          height: "100vh",
-        }}
-      >
-        <Image src={heroImage} alt={"Background Image"} />
-        <div
-          style={{
-            // use absolute position for the child element
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            // use higher zIndex than the image
-            zIndex: 1,
-            background: "yellow",
-          }}
-        >
-          <h1 className="knockout text-9xl text-colorpurple">TENÉS QUESO</h1>
-        </div>
-      </div>
-    </>
+    <div
+      className="flex justify-center items-center flex-col text-colorwhite"
+      style={{
+        width: "100vw",
+        height: "100vh",
+        backgroundImage: "url('../images/heroimage.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        fontWeight: "bolder",
+        fontSize: "40vh",
+        lineHeight: "normal",
+      }}
+    >
+      <h2 className="w-11/12">TENÉS</h2>
+      <h2 className="w-11/12">QUESO</h2>
+    </div>
   );
 }
