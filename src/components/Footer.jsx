@@ -8,7 +8,7 @@ import logofb from "../../public/logos/logofacebook.svg";
 export default function Footer() {
   return (
     <nav className="flex justify-center items-center px-10 py-6 bg-coloryellow1">
-      <Link href="/">
+      <Link href="https://www.facebook.com/lostordosquesos">
         <Image
           src={logofb}
           alt="Facebook - Los Tordos Quesos"

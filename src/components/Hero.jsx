@@ -9,7 +9,7 @@ export default function Hero() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         fontWeight: "bolder",
-        fontSize: "40vh",
+        fontSize: "100px",
         lineHeight: "normal",
       }}
     >
