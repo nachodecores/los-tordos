@@ -1,7 +1,7 @@
 export default function Hero() {
   return (
     <div
-      className="flex justify-center items-center flex-col text-colorwhite"
+      className="flex justify-center items-center flex-col text-coloryellow2"
       style={{
         width: "100vw",
         height: "100vh",
@@ -13,8 +13,13 @@ export default function Hero() {
         lineHeight: "normal",
       }}
     >
-      <h2 className="w-11/12">TENÉS</h2>
-      <h2 className="w-11/12">QUESO</h2>
+      <div className="w-11-12">
+        <h2 className="opacity-40">TENÉS</h2>
+      </div>
+
+      <div className="w-11-12">
+        <h2 className="opacity-40">QUESO</h2>
+      </div>
     </div>
   );
 }

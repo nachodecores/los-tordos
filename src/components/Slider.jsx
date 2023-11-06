@@ -40,64 +40,28 @@ export default function Slider() {
     ],
   };
   return (
-    <div className="[&>*]:my-4 h-5/6 bg-coloryellow2 text-colorpurple5 text-5xl">
-      <h3>Tostalo, fundilo, rallalo, picalo...</h3>
+    <div className="flex flex-col justify-evenly h-96 bg-gray-200 text-colorpurple5 text-6xl">
+      <h3 className="self-start ms-10">Tostalo, fundilo, rallalo, picalo...</h3>
       <Slick {...settings} className="w-full">
-        <Image
-          src={image1}
-          alt="Imagen uno"
-          className="rounded-3xl h-1/2 border border-coloryellow3"
-        />
+        <Image src={image1} alt="Imagen uno" className="h-1/2" />
 
-        <Image
-          src={image2}
-          alt="Imagen uno"
-          className="rounded-3xl h-1/2 border border-coloryellow3"
-        />
+        <Image src={image2} alt="Imagen uno" className="h-1/2" />
 
-        <Image
-          src={image3}
-          alt="Imagen uno"
-          className="rounded-3xl h-1/2 border border-coloryellow3"
-        />
+        <Image src={image3} alt="Imagen uno" className="h-1/2" />
 
-        <Image
-          src={image4}
-          alt="Imagen uno"
-          className="rounded-3xl h-1/2 border border-coloryellow3"
-        />
+        <Image src={image4} alt="Imagen uno" className="h-1/2" />
 
-        <Image
-          src={image5}
-          alt="Imagen uno"
-          className="rounded-3xl h-1/2 border border-coloryellow3"
-        />
+        <Image src={image5} alt="Imagen uno" className="h-1/2" />
 
-        <Image
-          src={image6}
-          alt="Imagen uno"
-          className="rounded-3xl h-1/2 border border-coloryellow3"
-        />
+        <Image src={image6} alt="Imagen uno" className="h-1/2" />
 
-        <Image
-          src={image7}
-          alt="Imagen uno"
-          className="rounded-3xl h-1/2 border border-coloryellow3"
-        />
+        <Image src={image7} alt="Imagen uno" className="h-1/2" />
 
-        <Image
-          src={image8}
-          alt="Imagen uno"
-          className="rounded-3xl h-1/2 border border-coloryellow3"
-        />
+        <Image src={image8} alt="Imagen uno" className="h-1/2" />
 
-        <Image
-          src={image9}
-          alt="Imagen uno"
-          className="rounded-3xl h-1/2 border border-coloryellow3"
-        />
+        <Image src={image9} alt="Imagen uno" className="h-1/2" />
       </Slick>
-      <h3>...tenés queso</h3>
+      <h3 className="self-end me-10">...tenés queso</h3>
     </div>
   );
 }

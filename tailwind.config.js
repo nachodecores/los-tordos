@@ -24,7 +24,7 @@ module.exports = {
         coloryellow2: "#F6EECB",
         coloryellow3: "#C8B66F",
         coloryellow4: "#9E8148",
-        coloryellow5: "#96743F",
+        coloryellow5: "#141000",
         colorpurple1: "#6C1E73",
         colorpurple2: "#614563",
         colorpurple3: "#4A224B",

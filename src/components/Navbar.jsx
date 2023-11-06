@@ -5,7 +5,7 @@ import logoletras from "../../public/logos/logoletrasamarillo.jpg";
 
 export default function Navbar() {
   return (
-    <nav className="flex justify-center h-20 items-center bg-colorpurple1">
+    <nav className="flex justify-center h-20 items-center bg-colorpurple4">
       <Link href="/">
         <Image
           src={logoletras}
