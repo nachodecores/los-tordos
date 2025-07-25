@@ -40,7 +40,14 @@ export default function Slider() {
     ],
   };
   return (
-    <div className="flex flex-col justify-evenly h-96 bg-gray-200 text-colorpurple5 text-6xl">
+    <div
+      className="flex flex-col justify-evenly h-96 bg-gray-200 text-colorpurple5 text-6xl"
+      style={{
+        backgroundImage: "url('../images/sinfingris.png')",
+        backgroundRepeat: true,
+        backgroundSize: 200,
+      }}
+    >
       <h3 className="self-start ms-10">Tostalo, fundilo, rallalo, picalo...</h3>
       <Slick {...settings} className="w-full">
         <Image src={image1} alt="Imagen uno" className="h-1/2" />

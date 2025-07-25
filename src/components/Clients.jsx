@@ -4,6 +4,7 @@ import provaca from "../../public/logos/provaca.svg";
 import morondanga from "../../public/logos/morondanga.svg";
 import osopardo from "../../public/logos/osopardo.svg";
 import gourmeat from "../../public/logos/gourmeat.svg";
+import pantera from "../../public/logos/pantera.svg";
 
 export default function Clients() {
   return (
@@ -61,7 +62,11 @@ export default function Clients() {
           </div>
           <div>
             <Link href={""}>
-              <p>La Vaca</p>
+              <Image
+                src={pantera}
+                alt="Pantera - Los Tordos Quesos Artesanales"
+                height={100}
+              />
             </Link>
           </div>
           <div>
