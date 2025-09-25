@@ -8,9 +8,9 @@ export default function Section() {
         {/* Texto de la cita */}
         <div className="text-center flex-1">
           <h2 className="text-coloryellow6 text-3xl md:text-6xl font-bold mb-4 md:mb-8 px-4">
-            "El queso es la respuesta, 
+            &ldquo;El queso es la respuesta, 
             <br />
-            cualquiera sea la pregunta"
+            cualquiera sea la pregunta&rdquo;
           </h2>
           <p className="text-coloryellow2 text-lg md:text-2xl opacity-80">
             Zlatan Ibrahimovic
