@@ -16,3 +16,21 @@ body {
 html {
   overflow-x: hidden;
 }
+
+.mobile-scale {
+  transform: scale(2);
+}
+
+.mobile-tab-font {
+  font-size: 10vw;
+}
+
+@media (min-width: 768px) {
+  .mobile-scale {
+    transform: scale(1);
+  }
+  
+  .mobile-tab-font {
+    font-size: 3vw;
+  }
+}
