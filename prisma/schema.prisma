@@ -1,0 +1,136 @@
+// Prisma schema - Lostordos Tambo Admin
+// Ver CONTEXTO_PROYECTO.md para el modelo de datos
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipoAnimal {
+  vaca
+  toro
+  vaquillona
+}
+
+enum CategoriaVaca {
+  en_ordene  // en ordeñe
+  seca
+}
+
+enum EstadoAnimal {
+  activo
+  vendido
+  muerto
+}
+
+enum ResultadoTacto {
+  prenada
+  vacia
+}
+
+enum RolUsuario {
+  admin
+  operador
+}
+
+model Usuario {
+  id            String     @id @default(uuid())
+  nombre        String     @unique
+  password_hash String
+  rol           RolUsuario
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+}
+
+model Animal {
+  id               String         @id @default(uuid())
+  caravana         String         @unique
+  tipo             TipoAnimal
+  categoria        CategoriaVaca? // Solo para vacas
+  estado           EstadoAnimal
+  fecha_nacimiento DateTime?      @db.Date
+  created_at       DateTime       @default(now())
+  updated_at       DateTime       @updatedAt
+
+  // Relaciones
+  servicios_como_vaca  Servicio[]    @relation("AnimalServicios")
+  servicios_como_toro   Servicio[]    @relation("ToroServicios")
+  tactos               Tacto[]
+  partos               Parto[]
+  periodos_toro        PeriodoToro[]
+  secados              Secado[]
+  abortos              Aborto[]
+}
+
+model Servicio {
+  id            String   @id @default(uuid())
+  fecha         DateTime @db.Date
+  observaciones String?
+  created_at    DateTime @default(now())
+
+  animal_id String
+  animal    Animal @relation("AnimalServicios", fields: [animal_id], references: [id], onDelete: Cascade)
+  toro_id   String
+  toro      Animal @relation("ToroServicios", fields: [toro_id], references: [id], onDelete: Restrict)
+
+  tactos Tacto[]
+}
+
+model Tacto {
+  id                    String         @id @default(uuid())
+  fecha                 DateTime       @db.Date
+  resultado             ResultadoTacto
+  fecha_estimada_parto  DateTime?      @db.Date
+  observaciones         String?
+  created_at            DateTime       @default(now())
+
+  animal_id  String
+  animal     Animal   @relation(fields: [animal_id], references: [id], onDelete: Cascade)
+  servicio_id String?
+  servicio   Servicio? @relation(fields: [servicio_id], references: [id], onDelete: SetNull)
+}
+
+model Parto {
+  id            String   @id @default(uuid())
+  fecha         DateTime @db.Date
+  observaciones String?
+  created_at    DateTime @default(now())
+
+  animal_id String
+  animal    Animal @relation(fields: [animal_id], references: [id], onDelete: Cascade)
+}
+
+model PeriodoToro {
+  id            String    @id @default(uuid())
+  fecha_inicio  DateTime  @db.Date
+  fecha_fin     DateTime? @db.Date // null = aún en rodeo
+  observaciones String?
+  created_at    DateTime  @default(now())
+
+  toro_id String
+  toro    Animal @relation(fields: [toro_id], references: [id], onDelete: Cascade)
+}
+
+model Secado {
+  id            String   @id @default(uuid())
+  fecha         DateTime @db.Date
+  observaciones String?
+  created_at    DateTime @default(now())
+
+  animal_id String
+  animal    Animal @relation(fields: [animal_id], references: [id], onDelete: Cascade)
+}
+
+model Aborto {
+  id            String   @id @default(uuid())
+  fecha         DateTime @db.Date
+  observaciones String?
+  created_at    DateTime @default(now())
+
+  animal_id String
+  animal    Animal @relation(fields: [animal_id], references: [id], onDelete: Cascade)
+}

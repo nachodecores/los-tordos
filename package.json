@@ -5,17 +5,28 @@
   "engines": {
     "node": ">=22.0.0"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy && prisma generate",
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed",
+    "db:import-animales": "node prisma/import-animales.js"
   },
   "dependencies": {
     "autoprefixer": "10.4.15",
+    "bcryptjs": "^3.0.3",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
     "framer-motion": "^10.16.1",
+    "jose": "^6.2.0",
     "next": "13.4.19",
     "postcss": "8.4.28",
     "react": "18.2.0",
@@ -25,5 +36,9 @@
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
     "tailwindcss": "3.3.3"
+  },
+  "devDependencies": {
+    "@prisma/client": "^5.22.0",
+    "prisma": "^5.22.0"
   }
 }
