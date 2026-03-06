@@ -1,4 +1,4 @@
-import { sealData, unsealData } from "iron-session/edge";
+import { sealData, unsealData } from "iron-session";
 
 const COOKIE_NAME = "lostordos_session";
 
