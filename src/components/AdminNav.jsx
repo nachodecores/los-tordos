@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -12,13 +12,8 @@ const NAV_ITEMS = [
 
 export default function AdminNav() {
   const pathname = usePathname();
-  const [usuario, setUsuario] = useState(null);
-
-  useEffect(() => {
-    fetch("/api/auth/me")
-      .then((r) => r.json())
-      .then((d) => setUsuario(d.usuario));
-  }, []);
+  const { data: session } = useSession();
+  const usuario = session?.user;
 
   const isAdmin = usuario?.rol === "admin";
   const navItems = isAdmin

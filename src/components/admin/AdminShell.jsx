@@ -1,19 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import AdminNav from "@/components/AdminNav";
 import AdminHeader from "@/components/AdminHeader";
 
 export default function AdminShell({ children }) {
-  const [usuario, setUsuario] = useState(null);
-
-  useEffect(() => {
-    fetch("/api/auth/me")
-      .then((r) => r.json())
-      .then((d) => setUsuario(d.usuario));
-  }, []);
-
-  const showNav = usuario?.rol === "admin";
+  const { data: session } = useSession();
+  const showNav = session?.user?.rol === "admin";
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
@@ -17,26 +18,21 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, password }),
-        credentials: "include",
-      });
+    const result = await signIn("credentials", {
+      nombre,
+      password,
+      redirect: false,
+    });
 
-      const data = await res.json();
+    setLoading(false);
 
-      if (!res.ok) {
-        setError(data.error || "Error al iniciar sesión");
-        return;
-      }
+    if (result?.error) {
+      setError("Usuario o contraseña incorrectos");
+      return;
+    }
 
+    if (result?.ok) {
       window.location.href = from;
-    } catch (err) {
-      setError("Error de conexión");
-    } finally {
-      setLoading(false);
     }
   }
 

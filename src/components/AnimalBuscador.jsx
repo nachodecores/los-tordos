@@ -3,13 +3,25 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function AnimalBuscador({ showVolver = false }) {
+export default function AnimalBuscador({ showVolver = false, listarTodos = false }) {
   const [busqueda, setBusqueda] = useState("");
   const [resultados, setResultados] = useState([]);
   const [seleccionado, setSeleccionado] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (listarTodos) {
+      setLoading(true);
+      fetch("/api/animales")
+        .then((res) => res.json())
+        .then((data) => {
+          setResultados(Array.isArray(data) ? data : []);
+          setSeleccionado(null);
+        })
+        .catch(() => setResultados([]))
+        .finally(() => setLoading(false));
+      return;
+    }
     if (busqueda.length < 1) {
       setResultados([]);
       setSeleccionado(null);
@@ -27,7 +39,7 @@ export default function AnimalBuscador({ showVolver = false }) {
         .finally(() => setLoading(false));
     }, 300);
     return () => clearTimeout(timer);
-  }, [busqueda]);
+  }, [busqueda, listarTodos]);
 
   function formatearCategoria(cat) {
     if (!cat) return "-";
@@ -39,6 +51,12 @@ export default function AnimalBuscador({ showVolver = false }) {
     return map[tipo] || tipo;
   }
 
+  const listaMostrar = listarTodos && busqueda.trim()
+    ? resultados.filter((a) =>
+        a.caravana.toLowerCase().includes(busqueda.trim().toLowerCase())
+      )
+    : resultados;
+
   return (
     <div className="max-w-2xl">
       {showVolver && (
@@ -48,25 +66,39 @@ export default function AnimalBuscador({ showVolver = false }) {
           </Link>
         </div>
       )}
-      <h1 className="text-2xl font-bold mb-4">Buscar animal</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        {listarTodos ? "Todos los animales" : "Buscar animal"}
+      </h1>
       <input
         type="text"
         value={busqueda}
         onChange={(e) => setBusqueda(e.target.value)}
-        placeholder="Caravana (ej: 53, 0362)"
+        placeholder={listarTodos ? "Filtrar por caravana..." : "Caravana (ej: 53, 0362)"}
         className="w-full border border-gray-300 rounded-lg px-4 py-3 text-lg mb-4"
-        autoFocus
+        autoFocus={!listarTodos}
       />
 
-      {loading && <p className="text-gray-500 text-sm mb-2">Buscando...</p>}
+      {loading && (
+        <p className="text-gray-500 text-sm mb-2">
+          {listarTodos ? "Cargando..." : "Buscando..."}
+        </p>
+      )}
 
-      {!loading && busqueda && resultados.length === 0 && (
+      {!loading && !listarTodos && busqueda && resultados.length === 0 && (
         <p className="text-gray-500">No se encontraron animales.</p>
       )}
 
-      {!loading && resultados.length > 0 && (
+      {!loading && listarTodos && resultados.length === 0 && (
+        <p className="text-gray-500">No hay animales cargados.</p>
+      )}
+
+      {!loading && listarTodos && busqueda.trim() && listaMostrar.length === 0 && (
+        <p className="text-gray-500">Ningún animal coincide con el filtro.</p>
+      )}
+
+      {!loading && listaMostrar.length > 0 && (
         <ul className="space-y-2 mb-6">
-          {resultados.map((animal) => (
+          {listaMostrar.map((animal) => (
             <li
               key={animal.id}
               onClick={() =>
@@ -90,12 +122,14 @@ export default function AnimalBuscador({ showVolver = false }) {
                     <div className="flex flex-wrap gap-3">
                     <Link
                       href={`/admin/animales/${animal.id}/servicio`}
+                      prefetch={false}
                       className="flex-1 min-w-[100px] bg-green-600 text-white text-center py-2 rounded-lg font-medium hover:bg-green-700"
                     >
                       SERVICIO
                     </Link>
                     <Link
                       href={`/admin/animales/${animal.id}/parto`}
+                      prefetch={false}
                       className="flex-1 min-w-[100px] bg-amber-600 text-white text-center py-2 rounded-lg font-medium hover:bg-amber-700"
                     >
                       PARTO
@@ -103,6 +137,7 @@ export default function AnimalBuscador({ showVolver = false }) {
                     {animal.tipo === "vaca" && animal.categoria === "en_ordene" && (
                       <Link
                         href={`/admin/animales/${animal.id}/secado`}
+                        prefetch={false}
                         className="flex-1 min-w-[100px] bg-slate-600 text-white text-center py-2 rounded-lg font-medium hover:bg-slate-700"
                       >
                         SECADO
@@ -111,6 +146,7 @@ export default function AnimalBuscador({ showVolver = false }) {
                     {(animal.tipo === "vaca" || animal.tipo === "vaquillona") && (
                       <Link
                         href={`/admin/animales/${animal.id}/aborto`}
+                        prefetch={false}
                         className="flex-1 min-w-[100px] bg-rose-600 text-white text-center py-2 rounded-lg font-medium hover:bg-rose-700"
                       >
                         ABORTO

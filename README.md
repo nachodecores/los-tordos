@@ -1,34 +1,86 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Los Tordos
 
-## Getting Started
+Web de quesos artesanales con panel admin para gestión del tambo (animales, servicios, partos, tactos, secados, abortos).
 
-First, run the development server:
+Stack: Next.js 13, Prisma, Supabase (PostgreSQL), Tailwind.
+
+---
+
+## Desarrollo local
 
 ```bash
+npm install
+cp .env.example .env   # editar con tus credenciales
+npm run db:migrate     # aplicar migraciones
+npm run db:seed        # crear usuarios (Chacho, Nacho, Lucas - pass: tambo2025)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Deploy en Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 1. Conectar el repo
 
-## Learn More
+- Importar proyecto en [Vercel](https://vercel.com) desde GitHub
+- Framework: Next.js (detección automática)
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Variables de entorno
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+En **Vercel → Project → Settings → Environment Variables**, configurar:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+| Variable         | Descripción | Notas |
+|------------------|-------------|-------|
+| `DATABASE_URL`   | URL de conexión a PostgreSQL | Ver sección Supabase más abajo |
+| `AUTH_SECRET` | Secreto para Auth.js (JWT) | Mínimo 32 caracteres, aleatorio |
 
-## Deploy on Vercel
+### 3. Supabase (base de datos)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Importante:** En serverless (Vercel) usar la URL del **Connection Pooler**, no la conexión directa.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Supabase → **Project Settings** (engranaje) → **Database**
+2. Ir a **Connect** / **Connection string**
+3. Método: **Transaction pooler** (o **Session pooler**)
+4. Copiar la URL (puerto **6543**, host `*.pooler.supabase.com`)
+5. Sustituir `[YOUR-PASSWORD]` por la contraseña de la base de datos
+6. Agregar al final: `?pgbouncer=true` (requerido para Prisma con pooler)
+
+Ejemplo:
+
+```
+postgresql://postgres.XXXXX:PASSWORD@aws-0-XX.pooler.supabase.com:6543/postgres?pgbouncer=true
+```
+
+La conexión directa (puerto 5432) no funciona desde Vercel por restricciones IPv4.
+
+### 4. Build
+
+El script `prisma generate && next build` está configurado en `package.json`. Vercel lo ejecutará automáticamente.
+
+### 5. Migraciones
+
+Si hay migraciones pendientes, ejecutarlas después del primer deploy:
+
+```bash
+DATABASE_URL="tu_url_pooler" npm run db:migrate:deploy
+```
+
+O desde un script / CI una vez configurada la variable.
+
+---
+
+## Notas técnicas
+
+- **Node.js:** El proyecto usa `engines.node >= 22`. Vercel puede usar 24.x según configuración.
+- **Auth:** Auth.js (NextAuth) con Credentials provider (nombre + contraseña, sin email).
+
+---
+
+## Scripts útiles
+
+| Comando | Descripción |
+|---------|-------------|
+| `npm run dev` | Desarrollo local |
+| `npm run build` | Build de producción |
+| `npm run db:seed` | Crear usuarios iniciales |
+| `npm run db:studio` | Abrir Prisma Studio |
