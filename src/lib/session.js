@@ -1,24 +1,22 @@
-import { SignJWT, jwtVerify } from "jose";
+import { sealData, unsealData } from "iron-session/edge";
 
 const COOKIE_NAME = "lostordos_session";
 
-function getSecret() {
-  const s = process.env.SESSION_SECRET || "fallback-dev-secret-change-in-prod";
-  return new TextEncoder().encode(s);
+function getPassword() {
+  return process.env.SESSION_SECRET || "fallback-dev-secret-change-in-prod-32ch";
 }
 
 export async function createSession({ id, nombre, rol }) {
-  return new SignJWT({ id, nombre, rol })
-    .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("7d")
-    .setIssuedAt()
-    .sign(getSecret());
+  return sealData(
+    { id, nombre, rol },
+    { password: getPassword(), ttl: 60 * 60 * 24 * 7 }
+  );
 }
 
-export async function verifySession(token) {
+export async function verifySession(encrypted) {
   try {
-    const { payload } = await jwtVerify(token, getSecret());
-    return payload;
+    const payload = await unsealData(encrypted, { password: getPassword() });
+    return payload && payload.id ? payload : null;
   } catch {
     return null;
   }
