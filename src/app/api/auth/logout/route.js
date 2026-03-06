@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSessionCookie } from "@/lib/session";
 
-export async function POST(request) {
+function createLogoutResponse(request) {
   const response = NextResponse.redirect(new URL("/admin/login", request.url));
   response.cookies.set(getSessionCookie(), "", {
     httpOnly: true,
@@ -12,4 +12,12 @@ export async function POST(request) {
     path: "/",
   });
   return response;
+}
+
+export async function GET(request) {
+  return createLogoutResponse(request);
+}
+
+export async function POST(request) {
+  return createLogoutResponse(request);
 }

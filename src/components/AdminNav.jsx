@@ -20,15 +20,6 @@ export default function AdminNav() {
       .then((d) => setUsuario(d.usuario));
   }, []);
 
-  function handleLogout(e) {
-    e.preventDefault();
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "/api/auth/logout";
-    document.body.appendChild(form);
-    form.submit();
-  }
-
   const isAdmin = usuario?.rol === "admin";
   const navItems = isAdmin
     ? NAV_ITEMS
@@ -71,14 +62,6 @@ export default function AdminNav() {
                 {usuario.nombre}
               </p>
             )}
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
-            >
-              <span>⎋</span>
-              Cerrar sesión
-            </button>
           </div>
         </div>
       </aside>
@@ -103,14 +86,6 @@ export default function AdminNav() {
               </Link>
             );
           })}
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="flex flex-col items-center justify-center flex-1 h-full gap-0.5 text-gray-500"
-          >
-            <span className="text-xl">⎋</span>
-            <span className="text-xs font-medium">Salir</span>
-          </button>
         </div>
       </nav>
     </>
