@@ -14,15 +14,6 @@ export default function AdminHeader() {
       .then((d) => setUsuario(d.usuario));
   }, []);
 
-  function handleLogout(e) {
-    e.preventDefault();
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "/api/auth/logout";
-    document.body.appendChild(form);
-    form.submit();
-  }
-
   return (
     <header className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200">
       <Link href="/admin" className="flex items-center">
@@ -48,13 +39,12 @@ export default function AdminHeader() {
                 {usuario.nombre}
               </span>
             </div>
-            <button
-              type="button"
-              onClick={handleLogout}
+            <Link
+              href="/api/auth/logout"
               className="text-gray-500 hover:text-gray-700 text-sm"
             >
               Cerrar sesión
-            </button>
+            </Link>
           </>
         )}
       </div>
