@@ -9,7 +9,7 @@ export default function AdminHeader() {
   const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
-    fetch("/api/auth/me")
+    fetch("/api/auth/me", { credentials: "include" })
       .then((r) => r.json())
       .then((d) => setUsuario(d.usuario));
   }, []);

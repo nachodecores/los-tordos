@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifySession, getSessionCookie } from "@/lib/session";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const cookieStore = cookies();
   const token = cookieStore.get(getSessionCookie())?.value;
