@@ -5,9 +5,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const NAV_ITEMS = [
-  { href: "/admin", label: "Dashboard", icon: "⌂" },
-  { href: "/admin/animales", label: "Animales", icon: "🐄" },
-  { href: "/admin/periodos-toro", label: "Períodos toro", icon: "🐂" },
+  { href: "/admin/animales", label: "Animales" },
+  { href: "/admin/informes", label: "Informes" },
 ];
 
 export default function AdminNav() {
@@ -15,10 +14,7 @@ export default function AdminNav() {
   const { data: session } = useSession();
   const usuario = session?.user;
 
-  const isAdmin = usuario?.rol === "admin";
-  const navItems = isAdmin
-    ? NAV_ITEMS
-    : NAV_ITEMS.filter((i) => i.href !== "/admin/periodos-toro");
+  const navItems = NAV_ITEMS;
 
   if (usuario && usuario.rol === "operador") {
     return null;
@@ -26,8 +22,8 @@ export default function AdminNav() {
 
   return (
     <>
-      {/* Sidebar - desktop */}
-      <aside className="hidden md:flex md:w-56 md:flex-col md:fixed md:inset-y-0 md:border-r md:border-gray-200 bg-white">
+      {/* Sidebar - desktop: izquierda */}
+      <aside className="hidden md:flex md:w-56 md:flex-col md:fixed md:left-0 md:top-0 md:bottom-0 md:border-r md:border-gray-200 bg-white z-40">
         <div className="flex flex-col flex-1 pt-6 pb-4 overflow-y-auto">
           <div className="flex items-center px-4 mb-6">
             <span className="text-lg font-bold text-gray-800">Tambo Admin</span>
@@ -45,7 +41,6 @@ export default function AdminNav() {
                     active ? "bg-blue-50 text-blue-700" : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
-                  <span className="text-lg">{item.icon}</span>
                   {item.label}
                 </Link>
               );
@@ -61,8 +56,8 @@ export default function AdminNav() {
         </div>
       </aside>
 
-      {/* Bottom nav - mobile */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 pb-[env(safe-area-inset-bottom)] z-50">
+      {/* Bottom nav - mobile: abajo */}
+      <nav className="md:hidden fixed left-0 right-0 bottom-0 bg-white border-t border-gray-200 pb-[env(safe-area-inset-bottom)] z-50">
         <div className="flex justify-around items-center h-16">
           {navItems.map((item) => {
             const active =
@@ -76,7 +71,6 @@ export default function AdminNav() {
                   active ? "text-blue-600" : "text-gray-500"
                 }`}
               >
-                <span className="text-xl">{item.icon}</span>
                 <span className="text-xs font-medium">{item.label}</span>
               </Link>
             );

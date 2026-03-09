@@ -32,7 +32,8 @@ En **Vercel → Project → Settings → Environment Variables**, configurar:
 | Variable         | Descripción | Notas |
 |------------------|-------------|-------|
 | `DATABASE_URL`   | URL de conexión a PostgreSQL | Ver sección Supabase más abajo |
-| `AUTH_SECRET` | Secreto para Auth.js (JWT) | Mínimo 32 caracteres, aleatorio |
+| `AUTH_SECRET`    | Secreto para Auth.js (JWT) | Mínimo 32 caracteres, aleatorio |
+| `NEXTAUTH_URL`   | URL base de la app | En producción: `https://www.lostordos.com` |
 
 ### 3. Supabase (base de datos)
 
@@ -73,6 +74,7 @@ O desde un script / CI una vez configurada la variable.
 
 - **Node.js:** El proyecto usa `engines.node >= 22`. Vercel puede usar 24.x según configuración.
 - **Auth:** Auth.js (NextAuth) con Credentials provider (nombre + contraseña, sin email).
+- **Links protegidos:** Los enlaces a rutas admin (SERVICIO, PARTO, etc.) usan `prefetch={false}` para evitar que el prefetch de Next.js omita cookies en producción.
 
 ---
 

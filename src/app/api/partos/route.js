@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(request) {
   try {
-    const { animal_id, fecha, observaciones } = await request.json();
+    const { animal_id, fecha } = await request.json();
 
     if (!animal_id || !fecha) {
       return NextResponse.json(
@@ -16,7 +16,6 @@ export async function POST(request) {
       data: {
         animal_id,
         fecha: new Date(fecha),
-        observaciones: observaciones || null,
       },
     });
 

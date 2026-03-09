@@ -5,7 +5,8 @@ const path = require("path");
 const prisma = new PrismaClient();
 
 async function main() {
-  const filePath = path.join(__dirname, "migracion.csv");
+  const fileName = process.argv[2] || "migracion.csv";
+  const filePath = path.join(__dirname, fileName);
   const content = fs.readFileSync(filePath, "utf-8");
   const lines = content.trim().split("\n");
 
@@ -38,12 +39,14 @@ async function main() {
           categoria: row.categoria || null,
           estado: row.estado || "activo",
           fecha_nacimiento: fechaNacimiento,
+          observaciones: row.observaciones || null,
         },
         update: {
           tipo: row.tipo || "vaca",
           categoria: row.categoria || null,
           estado: row.estado || "activo",
           fecha_nacimiento: fechaNacimiento,
+          observaciones: row.observaciones || null,
         },
       });
       inserted++;

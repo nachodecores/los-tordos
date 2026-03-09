@@ -11,7 +11,6 @@ export default function SecadoPage() {
 
   const [animal, setAnimal] = useState(null);
   const [fecha, setFecha] = useState(new Date().toISOString().slice(0, 10));
-  const [observaciones, setObservaciones] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -32,7 +31,6 @@ export default function SecadoPage() {
         body: JSON.stringify({
           animal_id: id,
           fecha,
-          observaciones: observaciones || null,
         }),
       });
       const data = await res.json();
@@ -77,15 +75,6 @@ export default function SecadoPage() {
                 onChange={(e) => setFecha(e.target.value)}
                 className="w-full border border-gray-300 rounded px-3 py-2"
                 required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Observaciones (opcional)</label>
-              <input
-                type="text"
-                value={observaciones}
-                onChange={(e) => setObservaciones(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2"
               />
             </div>
             {error && <p className="text-red-600 text-sm">{error}</p>}
