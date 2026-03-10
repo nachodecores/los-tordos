@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${knockout.className} bg-red-300 w-screen`}
+        className={`${inter.className} ${knockout.className} bg-colorpurple4 w-screen`}
       >
         <Providers>{children}</Providers>
       </body>

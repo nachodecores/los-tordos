@@ -6,7 +6,6 @@ import Link from "next/link";
 export default function AnimalBuscador({ showVolver = false, listarTodos = false, hideTitle = false }) {
   const [busqueda, setBusqueda] = useState("");
   const [resultados, setResultados] = useState([]);
-  const [seleccionado, setSeleccionado] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -16,7 +15,6 @@ export default function AnimalBuscador({ showVolver = false, listarTodos = false
         .then((res) => res.json())
         .then((data) => {
           setResultados(Array.isArray(data) ? data : []);
-          setSeleccionado(null);
         })
         .catch(() => setResultados([]))
         .finally(() => setLoading(false));
@@ -24,7 +22,6 @@ export default function AnimalBuscador({ showVolver = false, listarTodos = false
     }
     if (busqueda.length < 1) {
       setResultados([]);
-      setSeleccionado(null);
       return;
     }
     const timer = setTimeout(() => {
@@ -33,7 +30,6 @@ export default function AnimalBuscador({ showVolver = false, listarTodos = false
         .then((res) => res.json())
         .then((data) => {
           setResultados(Array.isArray(data) ? data : []);
-          setSeleccionado(null);
         })
         .catch(() => setResultados([]))
         .finally(() => setLoading(false));
@@ -101,71 +97,19 @@ export default function AnimalBuscador({ showVolver = false, listarTodos = false
       {!loading && listaMostrar.length > 0 && (
         <ul className="space-y-2 mb-6">
           {listaMostrar.map((animal) => (
-            <li
-              key={animal.id}
-              onClick={() =>
-                setSeleccionado(seleccionado?.id === animal.id ? null : animal)
-              }
-              className={`border rounded-lg p-4 cursor-pointer transition ${
-                seleccionado?.id === animal.id
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-gray-200 hover:bg-gray-50"
-              }`}
-            >
-              <div className="flex justify-between items-center">
-                <span className="font-semibold text-lg">{animal.caravana}</span>
-                <span className="text-gray-600 text-sm">
-                  {formatearTipo(animal.tipo)}
-                  {animal.categoria && ` · ${formatearCategoria(animal.categoria)}`}
-                </span>
-              </div>
-                {seleccionado?.id === animal.id && (
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="flex flex-wrap gap-3">
-                    <Link
-                      href={`/admin/animales/${animal.id}/servicio`}
-                      prefetch={false}
-                      className="flex-1 min-w-[100px] bg-green-600 text-white text-center py-2 rounded-lg font-medium hover:bg-green-700"
-                    >
-                      SERVICIO
-                    </Link>
-                    {(animal.tipo === "vaca" || animal.tipo === "vaquillona") && (
-                      <Link
-                        href={`/admin/animales/${animal.id}/tacto`}
-                        prefetch={false}
-                        className="flex-1 min-w-[100px] bg-blue-600 text-white text-center py-2 rounded-lg font-medium hover:bg-blue-700"
-                      >
-                        TACTO
-                      </Link>
-                    )}
-                    <Link
-                      href={`/admin/animales/${animal.id}/parto`}
-                      prefetch={false}
-                      className="flex-1 min-w-[100px] bg-amber-600 text-white text-center py-2 rounded-lg font-medium hover:bg-amber-700"
-                    >
-                      PARTO
-                    </Link>
-                    {animal.tipo === "vaca" && animal.categoria === "en_ordene" && (
-                      <Link
-                        href={`/admin/animales/${animal.id}/secado`}
-                        prefetch={false}
-                        className="flex-1 min-w-[100px] bg-slate-600 text-white text-center py-2 rounded-lg font-medium hover:bg-slate-700"
-                      >
-                        SECADO
-                      </Link>
-                    )}
-                    {(animal.tipo === "vaca" || animal.tipo === "vaquillona") && (
-                      <Link
-                        href={`/admin/animales/${animal.id}/aborto`}
-                        prefetch={false}
-                        className="flex-1 min-w-[100px] bg-rose-600 text-white text-center py-2 rounded-lg font-medium hover:bg-rose-700"
-                      >
-                        ABORTO
-                      </Link>
-                    )}
-                    </div>
-                  </div>
-                )}
+            <li key={animal.id}>
+              <Link
+                href={`/admin/animales/${animal.id}`}
+                className="block border border-gray-200 rounded-lg p-4 transition hover:bg-gray-50"
+              >
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-lg">{animal.caravana}</span>
+                  <span className="text-gray-600 text-sm">
+                    {formatearTipo(animal.tipo)}
+                    {animal.categoria && ` · ${formatearCategoria(animal.categoria)}`}
+                  </span>
+                </div>
+              </Link>
             </li>
           ))}
         </ul>

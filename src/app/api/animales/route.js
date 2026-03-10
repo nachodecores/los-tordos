@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getSessionUser } from "@/lib/auth";
 
 export async function GET(request) {
   try {
@@ -31,6 +32,7 @@ export async function GET(request) {
         servicios_como_vaca: { orderBy: { fecha: "desc" }, take: 1 },
         tactos: { orderBy: { fecha: "desc" }, take: 1 },
         partos: { orderBy: { fecha: "desc" }, take: 1 },
+        secados: { orderBy: { fecha: "desc" }, take: 1 },
         abortos: { orderBy: { fecha: "desc" }, take: 1 },
       },
     });
@@ -71,11 +73,15 @@ export async function GET(request) {
           }
         }
       }
+      const uSecado = a.secados?.[0];
       const dias_desde_parto = uPartoItem && a.categoria === "en_ordene"
         ? Math.floor((hoy - new Date(uPartoItem.fecha)) / (24 * 60 * 60 * 1000))
         : null;
-      const { tactos, servicios_como_vaca, partos, abortos, ...resto } = a;
-      return { ...resto, preñez_meses, dias_desde_parto };
+      const dias_desde_secado = uSecado && a.categoria === "seca"
+        ? Math.floor((hoy - new Date(uSecado.fecha)) / (24 * 60 * 60 * 1000))
+        : null;
+      const { tactos, servicios_como_vaca, partos, secados, abortos, ...resto } = a;
+      return { ...resto, preñez_meses, dias_desde_parto, dias_desde_secado };
     });
 
     return NextResponse.json(animalesConPreñez);
@@ -91,6 +97,7 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const { caravana, tipo, categoria, estado, fecha_nacimiento, observaciones } = await request.json();
+    const creadoPor = await getSessionUser();
 
     if (!caravana || !tipo || !estado) {
       return NextResponse.json({ error: "Faltan campos obligatorios (caravana, tipo, estado)" }, { status: 400 });
@@ -112,6 +119,7 @@ export async function POST(request) {
         estado,
         fecha_nacimiento: fecha_nacimiento ? new Date(fecha_nacimiento) : null,
         observaciones: observaciones || null,
+        creado_por: creadoPor,
       },
     });
 

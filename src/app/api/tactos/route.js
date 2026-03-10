@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getSessionUser } from "@/lib/auth";
 
 export async function POST(request) {
   try {
     const { animal_id, fecha, resultado, fecha_estimada_parto, servicio_id } = await request.json();
+    const creadoPor = await getSessionUser();
 
     if (!animal_id || !fecha || !resultado) {
       return NextResponse.json(
@@ -19,6 +21,7 @@ export async function POST(request) {
         resultado, // 'prenada' o 'vacia'
         fecha_estimada_parto: fecha_estimada_parto ? new Date(fecha_estimada_parto) : null,
         servicio_id: servicio_id || null,
+        creado_por: creadoPor,
       },
     });
 

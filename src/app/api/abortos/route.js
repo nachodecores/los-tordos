@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getSessionUser } from "@/lib/auth";
 
 export async function POST(request) {
   try {
     const { animal_id, fecha } = await request.json();
+    const creadoPor = await getSessionUser();
 
     if (!animal_id || !fecha) {
       return NextResponse.json(
@@ -27,6 +29,7 @@ export async function POST(request) {
       data: {
         animal_id,
         fecha: new Date(fecha),
+        creado_por: creadoPor,
       },
     });
 

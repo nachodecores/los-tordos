@@ -55,6 +55,8 @@ model Animal {
   estado           EstadoAnimal
   fecha_nacimiento DateTime?      @db.Date
   observaciones    String?
+  creado_por       String?
+  actualizado_por  String?
   created_at       DateTime       @default(now())
   updated_at       DateTime       @updatedAt
 
@@ -67,11 +69,12 @@ model Animal {
 }
 
 model Servicio {
-  id        String   @id @default(uuid())
-  fecha     DateTime @db.Date
+  id         String   @id @default(uuid())
+  fecha      DateTime @db.Date
+  creado_por String?
   created_at DateTime @default(now())
 
-  animal_id String
+  animal_id  String
   animal    Animal @relation("AnimalServicios", fields: [animal_id], references: [id], onDelete: Cascade)
 
   tactos Tacto[]
@@ -82,6 +85,7 @@ model Tacto {
   fecha                DateTime       @db.Date
   resultado            ResultadoTacto
   fecha_estimada_parto DateTime?      @db.Date
+  creado_por           String?
   created_at           DateTime       @default(now())
 
   animal_id  String
@@ -93,26 +97,29 @@ model Tacto {
 model Parto {
   id         String   @id @default(uuid())
   fecha      DateTime @db.Date
+  creado_por String?
   created_at DateTime @default(now())
 
-  animal_id String
+  animal_id  String
   animal    Animal @relation(fields: [animal_id], references: [id], onDelete: Cascade)
 }
 
 model Secado {
   id         String   @id @default(uuid())
   fecha      DateTime @db.Date
+  creado_por String?
   created_at DateTime @default(now())
 
-  animal_id String
+  animal_id  String
   animal    Animal @relation(fields: [animal_id], references: [id], onDelete: Cascade)
 }
 
 model Aborto {
   id         String   @id @default(uuid())
   fecha      DateTime @db.Date
+  creado_por String?
   created_at DateTime @default(now())
 
-  animal_id String
+  animal_id  String
   animal    Animal @relation(fields: [animal_id], references: [id], onDelete: Cascade)
 }

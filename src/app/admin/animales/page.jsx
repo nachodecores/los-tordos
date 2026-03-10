@@ -17,9 +17,6 @@ export default function AnimalesPage() {
     <div className="max-w-6xl mx-auto">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Gestión de Animales</h1>
-        <p className="text-gray-600 text-sm mt-1">
-          {isAdmin ? "Directorio completo del rodeo." : "Busque un animal para registrar eventos."}
-        </p>
       </div>
 
       {isAdmin ? (

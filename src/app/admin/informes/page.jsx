@@ -6,6 +6,7 @@ import {
   LineChart, Line, 
   XAxis, YAxis, CartesianGrid, ResponsiveContainer, LabelList 
 } from 'recharts';
+import { estimateCowMilkProduction, getSeasonFromMonth } from "@/lib/estimateMilkProduction";
 
 export default function InformesPage() {
   const [data, setData] = useState(null);
@@ -14,6 +15,7 @@ export default function InformesPage() {
   
   // Rinde promedio esperado en litros por vaca por día
   const [rindePromedio, setRindePromedio] = useState(16);
+  const [showMetodologiaModal, setShowMetodologiaModal] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -35,13 +37,24 @@ export default function InformesPage() {
   if (error) return <div className="p-4 text-red-500">{error}</div>;
   if (!data) return null;
 
-  // Enriquecer la proyección con la producción estimada
-  const datosGrafico = data.proyeccion.map(mes => {
-    // Estimación: Vacas en ordeñe * rinde promedio * 30 días (aproximado)
-    const produccionEstimada = mes.vacasEnOrdeneProyectadas * rindePromedio * 30;
+  // Enriquecer la proyección con la producción estimada (curva lactancia + factor estacional)
+  const AVG_DAYS_IN_MILK = 150; // Promedio representativo del rodeo
+  const DAYS_PER_MONTH = 30;
+
+  const datosGrafico = data.proyeccion.map((mes) => {
+    const season = getSeasonFromMonth(mes.monthIndex + 1);
+    const cowInput = {
+      daysInMilk: AVG_DAYS_IN_MILK,
+      targetAverageLiters: rindePromedio,
+      season,
+      concentrateKgPerDay: 4,
+    };
+    const litersPerCow = estimateCowMilkProduction(cowInput).finalLiters;
+    const produccionEstimada =
+      mes.vacasEnOrdeneProyectadas * litersPerCow * DAYS_PER_MONTH;
     return {
       ...mes,
-      produccion: Math.round(produccionEstimada)
+      produccion: Math.round(produccionEstimada),
     };
   });
 
@@ -107,7 +120,17 @@ export default function InformesPage() {
         {/* Gráfico 3: Estimación de Producción de Leche */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-            <h2 className="text-lg font-bold text-gray-800">Estimación de Producción Total</h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold text-gray-800">Estimación de Producción Total</h2>
+              <button
+                type="button"
+                onClick={() => setShowMetodologiaModal(true)}
+                className="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 hover:text-gray-800 flex items-center justify-center text-sm font-medium transition-colors"
+                title="Ver metodología"
+              >
+                i
+              </button>
+            </div>
             
             {/* Input para modificar la variable del gráfico */}
             <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg border border-gray-200">
@@ -146,11 +169,62 @@ export default function InformesPage() {
             </ResponsiveContainer>
           </div>
           <p className="text-xs text-gray-500 text-center mt-4 italic">
-            Cálculo: Vacas en ordeñe mensuales × rinde promedio ingresado × 30 días.
+            Cálculo: Vacas en ordeñe × litros/vaca/día (curva lactancia + factor estacional) × 30 días.
           </p>
         </div>
 
       </div>
+
+      {/* Modal metodología */}
+      {showMetodologiaModal && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowMetodologiaModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6">
+              <div className="flex justify-between items-start gap-4 mb-4">
+                <h3 className="text-lg font-bold text-gray-900">Metodología de estimación</h3>
+                <button
+                  type="button"
+                  onClick={() => setShowMetodologiaModal(false)}
+                  className="text-gray-400 hover:text-gray-600 shrink-0"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="text-sm text-gray-700 space-y-4">
+                <p>
+                  La producción mensual se calcula como:
+                </p>
+                <p className="bg-gray-50 p-3 rounded-lg font-mono text-xs">
+                  Producción = Vacas en ordeñe × Litros/vaca/día × 30 días
+                </p>
+                <p>
+                  Los <strong>litros por vaca por día</strong> se obtienen combinando:
+                </p>
+                <ol className="list-decimal list-inside space-y-2 ml-1">
+                  <li>
+                    <strong>Curva de lactancia:</strong> según días en leche (0–10: 60% del pico; 41–60: 100%; 271–305: 65%). Se usa un promedio de 150 días representativo del rodeo.
+                  </li>
+                  <li>
+                    <strong>Factor estacional:</strong> verano 0,83; otoño 1,03; invierno 0,94; primavera 1,12.
+                  </li>
+                  <li>
+                    <strong>Ajuste por ración:</strong> 4 kg de concentrado de referencia; respuesta variable según etapa de lactancia (≤90 días: 1 L/kg extra; 91–180: 0,7; &gt;180: 0,4).
+                  </li>
+                </ol>
+                <p>
+                  El <strong>rinde promedio esperado</strong> que ingresás es el objetivo del rodeo (L/vaca/día). El pico de lactancia se estima como 1,35 × ese valor.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

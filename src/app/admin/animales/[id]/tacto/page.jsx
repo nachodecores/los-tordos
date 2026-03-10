@@ -161,17 +161,16 @@ export default function TactoPage() {
               <button
                 onClick={(e) => handleSubmit(e, true)}
                 disabled={loading}
-                className="w-full bg-emerald-500 text-white py-4 rounded-xl font-bold text-lg hover:bg-emerald-600 transition-colors shadow-sm disabled:opacity-50 flex flex-col items-center"
+                className="w-full min-h-[3.5rem] flex items-center justify-center bg-emerald-500 text-white py-4 rounded-xl font-bold text-lg hover:bg-emerald-600 transition-colors shadow-sm disabled:opacity-50"
               >
-                <span>CONFIRMAR PREÑEZ</span>
-                <span className="text-xs font-normal text-emerald-100 mt-1">Calcula el parto automáticamente</span>
+                CONFIRMAR PREÑEZ
               </button>
             )}
 
             <button
               onClick={() => setModoCorregir(true)}
               disabled={loading}
-              className={`w-full py-4 rounded-xl font-bold text-lg transition-colors shadow-sm disabled:opacity-50 ${
+              className={`w-full min-h-[3.5rem] flex items-center justify-center py-4 rounded-xl font-bold text-lg transition-colors shadow-sm disabled:opacity-50 ${
                 ultimoServicio 
                   ? "bg-amber-100 text-amber-800 hover:bg-amber-200" 
                   : "bg-blue-600 text-white hover:bg-blue-700"
@@ -184,35 +183,11 @@ export default function TactoPage() {
       ) : (
         // VISTA CORREGIR: Formulario manual (Vacía o X meses)
         <form onSubmit={(e) => handleSubmit(e, false)} className="bg-white p-5 rounded-xl shadow-sm border border-gray-200 space-y-5 animate-in fade-in slide-in-from-bottom-2">
-          <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-            <h2 className="font-bold text-gray-800">Resultado Manual</h2>
-            {ultimoServicio && (
-              <button 
-                type="button" 
-                onClick={() => setModoCorregir(false)}
-                className="text-sm text-blue-600 hover:underline"
-              >
-                Cancelar
-              </button>
-            )}
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={() => setResultadoManual("prenada")}
-              className={`py-3 rounded-lg border-2 font-bold transition-all ${
-                resultadoManual === "prenada" 
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-700" 
-                  : "border-gray-200 text-gray-500 hover:border-emerald-200"
-              }`}
-            >
-              PREÑADA
-            </button>
+          <div className="grid grid-cols-1 gap-3">
             <button
               type="button"
               onClick={() => setResultadoManual("vacia")}
-              className={`py-3 rounded-lg border-2 font-bold transition-all ${
+              className={`w-full py-3 rounded-lg border-2 font-bold transition-all ${
                 resultadoManual === "vacia" 
                   ? "border-red-500 bg-red-50 text-red-700" 
                   : "border-gray-200 text-gray-500 hover:border-red-200"
@@ -220,12 +195,23 @@ export default function TactoPage() {
             >
               VACÍA
             </button>
+            <button
+              type="button"
+              onClick={() => setResultadoManual("prenada")}
+              className={`w-full py-3 rounded-lg border-2 font-bold transition-all ${
+                resultadoManual === "prenada" 
+                  ? "border-emerald-500 bg-emerald-50 text-emerald-700" 
+                  : "border-gray-200 text-gray-500 hover:border-emerald-200"
+              }`}
+            >
+              PREÑADA
+            </button>
           </div>
 
           {resultadoManual === "prenada" && (
             <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                ¿De cuántos meses está? (Aprox)
+                ¿De cuánto?
               </label>
               <select
                 value={mesesManual}
@@ -236,9 +222,6 @@ export default function TactoPage() {
                   <option key={num} value={num}>{num} {num === 1 ? 'mes' : 'meses'}</option>
                 ))}
               </select>
-              <p className="text-xs text-gray-500 mt-2">
-                * El sistema calculará la fecha estimada de parto sumándole los meses restantes.
-              </p>
             </div>
           )}
 
@@ -251,6 +234,15 @@ export default function TactoPage() {
           >
             {loading ? "Guardando..." : "GUARDAR TACTO"}
           </button>
+          {ultimoServicio && (
+            <button
+              type="button"
+              onClick={() => setModoCorregir(false)}
+              className="w-full text-sm text-blue-600 hover:underline py-2"
+            >
+              Cancelar
+            </button>
+          )}
         </form>
       )}
     </div>

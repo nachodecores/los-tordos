@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getSessionUser } from "@/lib/auth";
 
 export async function GET(request, { params }) {
   try {
@@ -67,6 +68,7 @@ export async function PUT(request, { params }) {
   try {
     const { id } = params;
     const { caravana, tipo, categoria, estado, fecha_nacimiento, observaciones } = await request.json();
+    const actualizadoPor = await getSessionUser();
 
     const animal = await prisma.animal.update({
       where: { id },
@@ -77,6 +79,7 @@ export async function PUT(request, { params }) {
         estado,
         fecha_nacimiento: fecha_nacimiento ? new Date(fecha_nacimiento) : null,
         observaciones: observaciones || null,
+        actualizado_por: actualizadoPor,
       },
     });
 

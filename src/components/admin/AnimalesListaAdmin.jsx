@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import AnimalForm from "./AnimalForm";
 
@@ -98,10 +99,10 @@ export default function AnimalesListaAdmin() {
         <table className="w-full text-left border-collapse text-xs">
           <thead>
             <tr className="bg-gray-50 text-gray-600 text-[10px] uppercase tracking-wider">
-              <th className="px-2 py-2 font-medium">Caravana</th>
+              <th className="px-2 py-2 font-medium">#</th>
               <th className="px-2 py-2 font-medium">Categoría</th>
               <th className="px-2 py-2 font-medium">Preñez</th>
-              <th className="px-2 py-2 font-medium text-right">Acciones</th>
+              <th className="px-2 py-2 font-medium text-right">Ver</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -128,6 +129,7 @@ export default function AnimalesListaAdmin() {
                       }`}>
                         {mapCategoria[animal.categoria] || animal.categoria}
                         {animal.categoria === 'en_ordene' && animal.dias_desde_parto != null && ` (${animal.dias_desde_parto})`}
+                        {animal.categoria === 'seca' && animal.dias_desde_secado != null && ` (${animal.dias_desde_secado})`}
                       </span>
                     ) : (
                       <span className="text-gray-400">-</span>
@@ -139,9 +141,16 @@ export default function AnimalesListaAdmin() {
                   <td className="px-2 py-2 text-right">
                     <Link
                       href={`/admin/animales/${animal.id}`}
-                      className="text-blue-600 hover:text-blue-800 font-medium text-[11px]"
+                      className="inline-flex p-1 rounded hover:bg-gray-100 transition-colors"
+                      aria-label="Ver"
                     >
-                      Ver &rarr;
+                      <Image
+                        src="/openicon.svg"
+                        alt="Ver"
+                        width={18}
+                        height={18}
+                        className="[filter:invert(28%)_sepia(98%)_saturate(2500%)_hue-rotate(206deg)_brightness(96%)_contrast(91%)]"
+                      />
                     </Link>
                   </td>
                 </tr>

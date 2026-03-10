@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import Slider from "@/components/Slider";
 import Section from "@/components/Section";
 import Footer from "@/components/Footer";
-import Tab from "@/components/Tab";
 
 export default function Home() {
   return (
@@ -13,7 +12,6 @@ export default function Home() {
       <Slider />
       <Section />
       <Footer />
-      <Tab />
     </>
   );
 }

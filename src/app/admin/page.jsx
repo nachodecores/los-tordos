@@ -21,14 +21,10 @@ export default function AdminPage() {
 
   // Si es operador, muestra el buscador
   return (
-    <div className="max-w-xl mx-auto mt-4">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Buscar Animal</h1>
-        <p className="text-gray-600 text-sm mt-1">
-          Busque una caravana para registrar un evento.
-        </p>
+    <div className="min-h-screen flex items-start justify-center pt-12 p-4">
+      <div className="w-full max-w-xl">
+        <AnimalBuscador />
       </div>
-      <AnimalBuscador />
     </div>
   );
 }

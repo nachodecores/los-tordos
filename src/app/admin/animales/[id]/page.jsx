@@ -51,7 +51,7 @@ export default function AnimalPerfilPage() {
   if (error) return <div className="p-4 text-red-500">{error}</div>;
   if (!animal) return null;
 
-  // Unificar eventos para el historial cronológico
+  // Unificar eventos para el historial cronológico (ordenados por fecha, más reciente primero)
   const historial = [
     ...(animal.servicios_como_vaca || []).map(e => ({ ...e, tipoEvento: "Servicio" })),
     ...(animal.tactos || []).map(e => ({ ...e, tipoEvento: "Tacto" })),
@@ -85,40 +85,32 @@ export default function AnimalPerfilPage() {
         {historial.length === 0 ? (
           <p className="text-gray-500 text-sm italic">No hay eventos registrados para este animal.</p>
         ) : (
-          <div 
-            className="flex overflow-x-auto pb-4 pt-2 gap-6 snap-x"
-            style={{ scrollbarWidth: 'thin' }}
-          >
-            {historial.map((evento, index) => {
+          <div className="relative pl-6">
+            <div className="absolute left-[5px] top-[14px] bottom-0 w-0.5 bg-gray-200" />
+            {historial.map((evento) => {
               const colores = coloresPorEvento[evento.tipoEvento] || { dot: "bg-gray-500", text: "text-gray-600" };
               return (
-              <div key={evento.id} className="relative flex-none w-64 snap-start">
-                {/* Línea horizontal de conexión */}
-                <div className="absolute top-1.5 left-3 w-[calc(100%+1.5rem)] h-0.5 bg-gray-200 -z-10"></div>
-                
-                {/* Puntito del timeline */}
-                <span className={`absolute w-3 h-3 rounded-full left-0 top-1 ring-4 ring-white z-10 ${colores.dot}`}></span>
-                
-                <div className="pt-6 pl-1 pr-4">
-                  <time className={`block text-xs font-bold mb-1 ${colores.text}`}>
-                    {formatDate(evento.fecha)}
-                  </time>
-                  <h3 className="font-semibold text-gray-900">{evento.tipoEvento}</h3>
-                  
-                  {/* Detalles específicos por tipo de evento */}
-                  {evento.tipoEvento === "Tacto" && (
-                    <div className="text-sm mt-2 bg-gray-50 p-2 rounded-md border border-gray-100">
-                      <div className="font-medium capitalize">{evento.resultado}</div>
-                      {evento.fecha_estimada_parto && (
-                        <div className="text-gray-500 text-xs mt-1">
-                          Parto est: {formatDate(evento.fecha_estimada_parto)}
-                        </div>
-                      )}
-                    </div>
-                  )}
+                <div key={evento.id} className="relative flex gap-4 pb-6">
+                  <span className={`shrink-0 w-3 h-3 rounded-full ring-4 ring-white mt-1.5 -ml-[19px] z-10 ${colores.dot}`} />
+                  <div className="flex-1 min-w-0 pt-0.5">
+                    <time className={`block text-xs font-bold mb-0.5 ${colores.text}`}>
+                      {formatDate(evento.fecha)}
+                    </time>
+                    <h3 className="font-semibold text-gray-900">{evento.tipoEvento}</h3>
+                    {evento.tipoEvento === "Tacto" && (
+                      <div className="text-sm mt-2 bg-gray-50 p-2 rounded-md border border-gray-100">
+                        <div className="font-medium capitalize">{evento.resultado}</div>
+                        {evento.fecha_estimada_parto && (
+                          <div className="text-gray-500 text-xs mt-1">
+                            Parto est: {formatDate(evento.fecha_estimada_parto)}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );})}
+              );
+            })}
           </div>
         )}
       </div>
