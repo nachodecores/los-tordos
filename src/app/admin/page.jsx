@@ -11,7 +11,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.rol === "admin") {
-      router.replace("/admin/informes");
+      router.replace("/admin/animales");
     }
   }, [session, status, router]);
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { 
   BarChart, Bar, 
   LineChart, Line, 
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
+  XAxis, YAxis, CartesianGrid, ResponsiveContainer, LabelList 
 } from 'recharts';
 
 export default function InformesPage() {
@@ -13,7 +13,7 @@ export default function InformesPage() {
   const [error, setError] = useState("");
   
   // Rinde promedio esperado en litros por vaca por día
-  const [rindePromedio, setRindePromedio] = useState(22);
+  const [rindePromedio, setRindePromedio] = useState(16);
 
   useEffect(() => {
     async function fetchData() {
@@ -55,7 +55,7 @@ export default function InformesPage() {
       </div>
 
       {/* Tarjetas de Resumen Actual */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-sm font-medium text-gray-500">Vacas en Ordeñe</h3>
           <p className="text-2xl font-bold text-blue-600 mt-1">{data.actual.vacasEnOrdene}</p>
@@ -67,10 +67,6 @@ export default function InformesPage() {
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-sm font-medium text-gray-500">Vaquillonas</h3>
           <p className="text-2xl font-bold text-pink-600 mt-1">{data.actual.vaquillonas}</p>
-        </div>
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 bg-gray-50">
-          <h3 className="text-sm font-medium text-gray-500">Total Activos</h3>
-          <p className="text-2xl font-bold text-gray-800 mt-1">{data.actual.totalActivos}</p>
         </div>
       </div>
 
@@ -85,8 +81,6 @@ export default function InformesPage() {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="mes" axisLine={false} tickLine={false} tick={{fontSize: 12}} dy={10} />
                 <YAxis allowDecimals={false} axisLine={false} tickLine={false} tick={{fontSize: 12}} dx={-10} />
-                <Tooltip cursor={{fill: '#f3f4f6'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} />
-                <Legend iconType="circle" wrapperStyle={{paddingTop: '20px'}} />
                 <Bar dataKey="partosEsperados" name="Nuevos Partos" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={40} />
               </BarChart>
             </ResponsiveContainer>
@@ -102,9 +96,9 @@ export default function InformesPage() {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="mes" axisLine={false} tickLine={false} tick={{fontSize: 12}} dy={10} />
                 <YAxis allowDecimals={false} domain={['dataMin - 5', 'dataMax + 5']} axisLine={false} tickLine={false} tick={{fontSize: 12}} dx={-10} />
-                <Tooltip contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} />
-                <Legend iconType="circle" wrapperStyle={{paddingTop: '20px'}} />
-                <Line type="monotone" dataKey="vacasEnOrdeneProyectadas" name="Vacas Ordeñándose" stroke="#3b82f6" strokeWidth={3} dot={{r: 4, strokeWidth: 2}} activeDot={{r: 6}} />
+                <Line type="monotone" dataKey="vacasEnOrdeneProyectadas" name="Vacas Ordeñándose" stroke="#3b82f6" strokeWidth={3} dot={{r: 4, strokeWidth: 2}} activeDot={{r: 6}}>
+                  <LabelList dataKey="vacasEnOrdeneProyectadas" position="top" style={{fontSize: 11}} />
+                </Line>
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -137,20 +131,18 @@ export default function InformesPage() {
 
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={datosGrafico}>
+              <LineChart data={datosGrafico}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="mes" axisLine={false} tickLine={false} tick={{fontSize: 12}} dy={10} />
                 <YAxis 
+                  domain={[18000, 'auto']}
                   tickFormatter={(value) => `${(value/1000).toFixed(0)}k`} 
                   axisLine={false} tickLine={false} tick={{fontSize: 12}} dx={-10} 
                 />
-                <Tooltip 
-                  formatter={(value) => [`${value.toLocaleString("es-AR")} Lts`, 'Producción']}
-                  cursor={{fill: '#f8fafc'}}
-                  contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} 
-                />
-                <Bar dataKey="produccion" name="Producción Total (Litros)" fill="#8b5cf6" radius={[4, 4, 0, 0]} maxBarSize={60} />
-              </BarChart>
+                <Line type="monotone" dataKey="produccion" name="Producción Total (Litros)" stroke="#8b5cf6" strokeWidth={3} dot={{r: 4, strokeWidth: 2}} activeDot={{r: 6}}>
+                <LabelList dataKey="produccion" position="top" formatter={(v) => `${(v/1000).toFixed(1)}k`} style={{fontSize: 11}} />
+              </Line>
+              </LineChart>
             </ResponsiveContainer>
           </div>
           <p className="text-xs text-gray-500 text-center mt-4 italic">

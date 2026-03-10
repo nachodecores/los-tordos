@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import AdminUserMenu from "@/components/admin/AdminUserMenu";
 
 const NAV_ITEMS = [
   { href: "/admin/animales", label: "Animales" },
@@ -47,11 +48,7 @@ export default function AdminNav() {
             })}
           </nav>
           <div className="px-3 mt-4 pt-4 border-t border-gray-200">
-            {usuario && (
-              <p className="px-3 py-2 text-xs text-gray-500 truncate">
-                {usuario.nombre}
-              </p>
-            )}
+            <AdminUserMenu vertical />
           </div>
         </div>
       </aside>

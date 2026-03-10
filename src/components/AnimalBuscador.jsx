@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function AnimalBuscador({ showVolver = false, listarTodos = false }) {
+export default function AnimalBuscador({ showVolver = false, listarTodos = false, hideTitle = false }) {
   const [busqueda, setBusqueda] = useState("");
   const [resultados, setResultados] = useState([]);
   const [seleccionado, setSeleccionado] = useState(null);
@@ -66,9 +66,11 @@ export default function AnimalBuscador({ showVolver = false, listarTodos = false
           </Link>
         </div>
       )}
-      <h1 className="text-2xl font-bold mb-4">
-        {listarTodos ? "Todos los animales" : "Buscar animal"}
-      </h1>
+      {!hideTitle && (
+        <h1 className="text-2xl font-bold mb-4">
+          {listarTodos ? "Todos los animales" : "Buscar animal"}
+        </h1>
+      )}
       <input
         type="text"
         value={busqueda}
@@ -127,6 +129,15 @@ export default function AnimalBuscador({ showVolver = false, listarTodos = false
                     >
                       SERVICIO
                     </Link>
+                    {(animal.tipo === "vaca" || animal.tipo === "vaquillona") && (
+                      <Link
+                        href={`/admin/animales/${animal.id}/tacto`}
+                        prefetch={false}
+                        className="flex-1 min-w-[100px] bg-blue-600 text-white text-center py-2 rounded-lg font-medium hover:bg-blue-700"
+                      >
+                        TACTO
+                      </Link>
+                    )}
                     <Link
                       href={`/admin/animales/${animal.id}/parto`}
                       prefetch={false}

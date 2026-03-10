@@ -25,7 +25,7 @@ export default function AnimalesPage() {
       {isAdmin ? (
         <AnimalesListaAdmin />
       ) : (
-        <AnimalBuscador showVolver={false} />
+        <AnimalBuscador showVolver={false} hideTitle />
       )}
     </div>
   );
