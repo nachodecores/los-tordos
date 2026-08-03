@@ -9,7 +9,7 @@ export default function AnimalForm({ animalInicial, onSubmitExito, onCancel }) {
   const [formData, setFormData] = useState({
     caravana: animalInicial?.caravana || "",
     tipo: animalInicial?.tipo || "vaca",
-    categoria: animalInicial?.categoria || "seca",
+    categoria: animalInicial?.categoria || (animalInicial?.tipo === "vaquillona" ? "vaquillona" : "seca"),
     estado: animalInicial?.estado || "activo",
     fecha_nacimiento: animalInicial?.fecha_nacimiento ? animalInicial.fecha_nacimiento.split('T')[0] : "",
     observaciones: animalInicial?.observaciones || "",
@@ -23,10 +23,12 @@ export default function AnimalForm({ animalInicial, onSubmitExito, onCancel }) {
     setFormData(prev => ({
       ...prev,
       [name]: value,
-      // Si cambia de tipo y ya no es vaca, limpiar categoría
-      ...(name === "tipo" && value !== "vaca" ? { categoria: "" } : {}),
-      // Si cambia a vaca y no tenía categoría, poner 'seca' por defecto
-      ...(name === "tipo" && value === "vaca" && !prev.categoria ? { categoria: "seca" } : {})
+      // Si cambia a vaquillona, categoría vaquillona
+      ...(name === "tipo" && value === "vaquillona" ? { categoria: "vaquillona" } : {}),
+      // Si cambia de tipo y es toro, limpiar categoría
+      ...(name === "tipo" && value === "toro" ? { categoria: "" } : {}),
+      // Si cambia a vaca y no tenía categoría (o era vaquillona), poner 'seca' por defecto
+      ...(name === "tipo" && value === "vaca" && prev.categoria !== "en_ordene" ? { categoria: "seca" } : {})
     }));
   };
 
@@ -122,6 +124,7 @@ export default function AnimalForm({ animalInicial, onSubmitExito, onCancel }) {
                 <option value="en_ordene">En ordeñe</option>
               </>
             )}
+            {formData.tipo === "vaquillona" && <option value="vaquillona">Vaquillona</option>}
           </select>
         </div>
 

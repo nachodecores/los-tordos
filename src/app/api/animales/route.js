@@ -115,7 +115,7 @@ export async function POST(request) {
       data: {
         caravana,
         tipo,
-        categoria: tipo === "vaca" ? categoria || "seca" : null,
+        categoria: tipo === "vaca" ? categoria || "seca" : tipo === "vaquillona" ? "vaquillona" : null,
         estado,
         fecha_nacimiento: fecha_nacimiento ? new Date(fecha_nacimiento) : null,
         observaciones: observaciones || null,

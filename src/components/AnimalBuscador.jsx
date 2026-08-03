@@ -39,7 +39,10 @@ export default function AnimalBuscador({ showVolver = false, listarTodos = false
 
   function formatearCategoria(cat) {
     if (!cat) return "-";
-    return cat === "en_ordene" ? "En ordeñe" : "Seca";
+    if (cat === "en_ordene") return "En ordeñe";
+    if (cat === "seca") return "Seca";
+    if (cat === "vaquillona") return "Vaquillona";
+    return cat;
   }
 
   function formatearTipo(tipo) {

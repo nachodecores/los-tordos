@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 const mapTipo = { vaca: "Vaca", toro: "Toro", vaquillona: "Vaquillona" };
-const mapCategoria = { en_ordene: "Ordeñe", seca: "Seca" };
+const mapCategoria = { en_ordene: "Ordeñe", seca: "Seca", vaquillona: "Vaquillona" };
 
 export default function AnimalInfoCard({ animal, showEditar = false, onEditar }) {
   return (

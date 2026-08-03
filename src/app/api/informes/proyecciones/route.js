@@ -28,11 +28,11 @@ export async function GET() {
 
     // 2. Procesar cada animal para calcular estado y fecha de parto
     animales.forEach(animal => {
-      // Conteo actual
-      if (animal.tipo === "vaca") {
+      // Conteo actual (vaquillona por tipo o por categoría por si hay datos legacy)
+      if (animal.tipo === "vaca" && animal.categoria !== "vaquillona") {
         if (animal.categoria === "en_ordene") vacasEnOrdene++;
         if (animal.categoria === "seca") vacasSecas++;
-      } else if (animal.tipo === "vaquillona") {
+      } else if (animal.tipo === "vaquillona" || animal.categoria === "vaquillona") {
         vaquillonas++;
       }
 
@@ -77,10 +77,24 @@ export async function GET() {
       }
     });
 
-    // 3. Generar la estructura de 12 meses
+    // 3. Calcular cuántos meses proyectar (mínimo 12, o hasta el último parto proyectado)
+    const ultimoPartoProyectado = partosProyectados.length > 0
+      ? partosProyectados.reduce((max, p) => 
+          p.fechaParto > max ? p.fechaParto : max
+        , new Date(0))
+      : null;
+    
+    const mesesHastaUltimoParto = ultimoPartoProyectado
+      ? (ultimoPartoProyectado.getFullYear() - inicioMesActual.getFullYear()) * 12 
+        + (ultimoPartoProyectado.getMonth() - inicioMesActual.getMonth())
+        + 1
+      : 0;
+    
+    const numMeses = Math.max(12, Math.min(mesesHastaUltimoParto + 2, 36));
+
     const proyeccion = [];
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < numMeses; i++) {
       // Tomamos el último día del mes como punto de referencia para calcular si la vaca estará en ordeñe
       const finDeMes = new Date(hoy.getFullYear(), hoy.getMonth() + i + 1, 0);
       const labelMes = finDeMes.toLocaleDateString("es-AR", { month: "short", year: "2-digit" });

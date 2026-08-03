@@ -28,7 +28,7 @@ const SEASONAL_FACTORS = {
 
 export const DEFAULTS = {
   peakFactor: 1.35,
-  baseConcentrateKg: 4,
+  baseConcentrateKg: 6,
   litersPerExtraKg: 0.7,
   minDaysInMilk: 0,
   maxDaysInMilk: 305,

@@ -63,7 +63,7 @@ export default function InformesPage() {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Informes y Proyecciones</h1>
         <p className="text-gray-600 text-sm mt-1">
-          Análisis del estado actual del rodeo y proyecciones a 12 meses.
+          Análisis del estado actual del rodeo y proyecciones según eventos proyectados.
         </p>
       </div>
 
@@ -214,7 +214,7 @@ export default function InformesPage() {
                     <strong>Factor estacional:</strong> verano 0,83; otoño 1,03; invierno 0,94; primavera 1,12.
                   </li>
                   <li>
-                    <strong>Ajuste por ración:</strong> 4 kg de concentrado de referencia; respuesta variable según etapa de lactancia (≤90 días: 1 L/kg extra; 91–180: 0,7; &gt;180: 0,4).
+                    <strong>Ajuste por ración:</strong> 6 kg de concentrado de referencia; respuesta variable según etapa de lactancia (≤90 días: 1 L/kg extra; 91–180: 0,7; &gt;180: 0,4).
                   </li>
                 </ol>
                 <p>

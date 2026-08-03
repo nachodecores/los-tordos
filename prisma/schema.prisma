@@ -20,6 +20,7 @@ enum TipoAnimal {
 enum CategoriaVaca {
   en_ordene  // en ordeñe
   seca
+  vaquillona
 }
 
 enum EstadoAnimal {
@@ -51,7 +52,7 @@ model Animal {
   id               String         @id @default(uuid())
   caravana         String         @unique
   tipo             TipoAnimal
-  categoria        CategoriaVaca? // Solo para vacas
+  categoria        CategoriaVaca? // vaca: en_ordene|seca; vaquillona: vaquillona
   estado           EstadoAnimal
   fecha_nacimiento DateTime?      @db.Date
   observaciones    String?
