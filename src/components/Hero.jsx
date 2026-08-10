@@ -1,17 +1,25 @@
 export default function Hero() {
   return (
-    <div className="w-full h-screen flex justify-center items-center flex-col text-coloryellow6 bg-colorpurple4 pt-20" style={{
-      fontWeight: "bolder",
-      fontSize: "80px",
-      lineHeight: "normal",
-    }}>
-      <div className="w-11-12">
-        <h2 className="opacity-80">INSPIRATE,</h2>
-      </div>
+    <div
+      className="w-full h-screen flex justify-center items-center flex-col text-coloryellow6 bg-colorpurple4 pt-20 px-4 text-center"
+      style={{
+        fontWeight: "bolder",
+        lineHeight: "normal",
+      }}
+    >
+      <h2
+        className="opacity-90"
+        style={{ fontSize: "clamp(2.5rem, 9vw, 5rem)" }}
+      >
+        INSPIRATE,
+      </h2>
 
-      <div className="w-11-12">
-        <h2 className="opacity-80">TENÉS QUESO.</h2>
-      </div>
+      <h2
+        className="opacity-90"
+        style={{ fontSize: "clamp(2.5rem, 9vw, 5rem)" }}
+      >
+        TENÉS QUESO.
+      </h2>
     </div>
   );
 }

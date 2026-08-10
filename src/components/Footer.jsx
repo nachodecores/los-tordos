@@ -19,32 +19,37 @@ function LockIcon({ className = "w-6 h-6" }) {
 
 export default function Footer() {
   return (
-    <nav className="flex justify-between items-center px-10 py-6 bg-coloryellow1">
-      <div className="flex items-center">
-        <Link href="https://www.facebook.com/lostordosquesos">
+    <nav className="flex justify-between items-center px-6 md:px-10 py-8 bg-coloryellow1">
+      <div className="flex items-center gap-6">
+        <Link
+          href="https://www.facebook.com/lostordosquesos"
+          className="opacity-80 hover:opacity-100 transition-opacity"
+        >
           <Image
             src={logofb}
             alt="Facebook - Los Tordos Quesos"
-            width={30}
-            height={30}
-            className="mr-6"
+            width={26}
+            height={26}
           />
         </Link>
-        <Link href="https://www.instagram.com/lostordosquesos/">
+        <Link
+          href="https://www.instagram.com/lostordosquesos/"
+          className="opacity-80 hover:opacity-100 transition-opacity"
+        >
           <Image
             src={logoinsta}
             alt="Insta - Los Tordos Quesos"
-            width={30}
-            height={30}
+            width={26}
+            height={26}
           />
         </Link>
       </div>
       <Link
         href="/admin"
-        className="text-colorpurple4 hover:text-colorpurple5 transition-colors"
+        className="text-colorpurple4/70 hover:text-colorpurple5 transition-colors"
         title="Admin"
       >
-        <LockIcon />
+        <LockIcon className="w-5 h-5" />
       </Link>
     </nav>
   );
