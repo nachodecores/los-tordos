@@ -16,6 +16,7 @@ export default function AnimalesListaAdmin() {
   const [q, setQ] = useState("");
   const [tipo, setTipo] = useState("vaca");
   const [categoria, setCategoria] = useState("");
+  const [estadoFiltro, setEstadoFiltro] = useState("activo");
 
   const [sortConfig, setSortConfig] = useState({ key: "caravana", direction: "asc" });
 
@@ -26,7 +27,12 @@ export default function AnimalesListaAdmin() {
       if (q) params.set("q", q);
       if (tipo) params.set("tipo", tipo);
       if (categoria && tipo === "vaca") params.set("categoria", categoria);
-      params.set("activos", "true");
+      if (estadoFiltro === "activo") {
+        params.set("activos", "true");
+      } else {
+        params.set("activos", "false");
+        if (estadoFiltro !== "todos") params.set("estado", estadoFiltro);
+      }
 
       const res = await fetch(`/api/animales?${params.toString()}`);
       if (res.ok) {
@@ -46,9 +52,15 @@ export default function AnimalesListaAdmin() {
       fetchAnimales();
     }, 300);
     return () => clearTimeout(delay);
-  }, [q, tipo, categoria]);
+  }, [q, tipo, categoria, estadoFiltro]);
 
   const mapCategoria = { en_ordene: "Ordeñe", seca: "Seca", vaquillona: "Vaquillona" };
+  const mapEstado = { activo: "Activo", vendido: "Vendido", muerto: "Muerto" };
+  const estadoBadgeClass = {
+    activo: "bg-green-100 text-green-800",
+    vendido: "bg-gray-200 text-gray-700",
+    muerto: "bg-red-100 text-red-800",
+  };
 
   const sortedAnimales = [...animales].sort((a, b) => {
     const { key, direction } = sortConfig;
@@ -179,6 +191,16 @@ export default function AnimalesListaAdmin() {
               <option value="seca">Secas</option>
             </select>
           </div>
+          <select
+            value={estadoFiltro}
+            onChange={(e) => setEstadoFiltro(e.target.value)}
+            className="w-full border border-gray-300 rounded-lg p-2 text-sm bg-white"
+          >
+            <option value="activo">Activos</option>
+            <option value="vendido">Vendidos</option>
+            <option value="muerto">Muertos</option>
+            <option value="todos">Todos</option>
+          </select>
         </div>
       </div>
 
@@ -208,19 +230,22 @@ export default function AnimalesListaAdmin() {
                 Preñez
                 {sortConfig.key === "preñez" && (sortConfig.direction === "asc" ? " ▲" : " ▼")}
               </th>
+              {estadoFiltro !== "activo" && (
+                <th className="px-2 py-2 font-medium">Estado</th>
+              )}
               <th className="px-2 py-2 font-medium text-right">Ver</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {loading ? (
               <tr>
-                <td colSpan="4" className="px-2 py-6 text-center text-gray-500">
+                <td colSpan={estadoFiltro !== "activo" ? 5 : 4} className="px-2 py-6 text-center text-gray-500">
                   Cargando...
                 </td>
               </tr>
             ) : sortedAnimales.length === 0 ? (
               <tr>
-                <td colSpan="4" className="px-2 py-6 text-center text-gray-500">
+                <td colSpan={estadoFiltro !== "activo" ? 5 : 4} className="px-2 py-6 text-center text-gray-500">
                   No se encontraron animales con esos filtros.
                 </td>
               </tr>
@@ -250,6 +275,13 @@ export default function AnimalesListaAdmin() {
                           ? "RP"
                           : "Sin Datos"}
                   </td>
+                  {estadoFiltro !== "activo" && (
+                    <td className="px-2 py-2">
+                      <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-medium ${estadoBadgeClass[animal.estado] || "bg-gray-100 text-gray-700"}`}>
+                        {mapEstado[animal.estado] || animal.estado}
+                      </span>
+                    </td>
+                  )}
                   <td className="px-2 py-2 text-right">
                     <Link
                       href={`/admin/animales/${animal.id}`}

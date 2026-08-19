@@ -37,7 +37,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-coloryellow6 px-4">
       <div className="w-full max-w-sm bg-white rounded-lg shadow p-6">
         <h1 className="text-xl font-bold text-center mb-6">Admin Tambo</h1>
 

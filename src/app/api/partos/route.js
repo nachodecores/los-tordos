@@ -22,7 +22,7 @@ export async function POST(request) {
       },
     });
 
-    // Si es vaquillona, pasar a vaca en ordeñe
+    // Si es vaquillona, pasar a vaca en ordeñe; si ya es vaca, pasarla a en ordeñe también
     const animal = await prisma.animal.findUnique({
       where: { id: animal_id },
     });
@@ -30,6 +30,11 @@ export async function POST(request) {
       await prisma.animal.update({
         where: { id: animal_id },
         data: { tipo: "vaca", categoria: "en_ordene", actualizado_por: creadoPor },
+      });
+    } else if (animal?.tipo === "vaca" && animal.categoria !== "en_ordene") {
+      await prisma.animal.update({
+        where: { id: animal_id },
+        data: { categoria: "en_ordene", actualizado_por: creadoPor },
       });
     }
 

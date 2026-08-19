@@ -115,6 +115,12 @@ model Secado {
   animal    Animal @relation(fields: [animal_id], references: [id], onDelete: Cascade)
 }
 
+// Nota: existe la vista "eventos_auditoria" (creada por migración manual en
+// prisma/migrations/20260812120000_add_eventos_auditoria_view) que unifica
+// Servicio, Tacto, Parto, Secado, Aborto y altas de Animal en una sola tabla
+// de auditoría (tipo_evento, animal, fecha, creado_por, created_at).
+// No está modelada como model de Prisma; se consulta con $queryRaw.
+
 model Aborto {
   id         String   @id @default(uuid())
   fecha      DateTime @db.Date

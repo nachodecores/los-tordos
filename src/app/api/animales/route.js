@@ -9,13 +9,16 @@ export async function GET(request) {
     const activos = searchParams.get("activos") !== "false";
     const tipo = searchParams.get("tipo");
     const categoria = searchParams.get("categoria");
+    const estado = searchParams.get("estado");
 
     const where = {};
 
     if (q) {
       where.caravana = { contains: q, mode: "insensitive" };
     }
-    if (activos) {
+    if (estado) {
+      where.estado = estado;
+    } else if (activos) {
       where.estado = "activo";
     }
     if (tipo) {
