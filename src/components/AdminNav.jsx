@@ -8,6 +8,7 @@ import AdminUserMenu from "@/components/admin/AdminUserMenu";
 const NAV_ITEMS = [
   { href: "/admin/animales", label: "Animales" },
   { href: "/admin/informes", label: "Informes" },
+  { href: "/admin/auditoria", label: "Auditoría", adminOnly: true },
 ];
 
 export default function AdminNav() {
@@ -15,7 +16,7 @@ export default function AdminNav() {
   const { data: session } = useSession();
   const usuario = session?.user;
 
-  const navItems = NAV_ITEMS;
+  const navItems = NAV_ITEMS.filter((item) => !item.adminOnly || usuario?.rol === "admin");
 
   if (usuario && usuario.rol === "operador") {
     return null;
