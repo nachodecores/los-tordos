@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
-import Providers from "@/components/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 const knockout = localFont({
@@ -20,7 +19,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.className} ${knockout.className} bg-colorpurple4 w-screen`}
       >
-        <Providers>{children}</Providers>
+        {children}
       </body>
     </html>
   );

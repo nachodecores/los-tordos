@@ -5,49 +5,25 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "prisma": {
-    "seed": "node prisma/seed.js"
-  },
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:migrate:deploy": "prisma migrate deploy && prisma generate",
-    "db:studio": "prisma studio",
-    "db:seed": "prisma db seed",
-    "db:import-animales": "node prisma/import-animales.js",
-    "db:import-toros": "node prisma/import-animales.js migracion-toros.csv",
-    "db:import-servicios": "node prisma/import-servicios.js",
-    "db:import-servicios-migracion": "node prisma/import-servicios.js migracion-servicios.csv",
-    "db:import-partos": "node prisma/import-partos.js",
-    "db:import-secados": "node prisma/import-secados.js",
-    "db:import-tactos": "node prisma/import-tactos.js",
-    "db:import-abortos": "node prisma/import-abortos.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "autoprefixer": "10.4.15",
-    "bcryptjs": "^3.0.3",
-    "date-fns": "^4.1.0",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
     "framer-motion": "^10.16.1",
     "next": "13.4.19",
-    "next-auth": "^4.24.13",
     "postcss": "8.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.17.0",
     "react-slick": "^0.29.0",
-    "recharts": "^3.8.0",
     "slick-carousel": "^1.8.1",
     "tailwindcss": "3.3.3"
-  },
-  "devDependencies": {
-    "@prisma/client": "^5.22.0",
-    "prisma": "^5.22.0"
   }
 }
