@@ -1,3 +1,5 @@
+import heroAdjustments from './hero-adjustments.json';
+import {cleanAdjustments} from './hero-editing.mjs';
 // Configuracion exclusiva de la web publica. No consulta ni modifica el sistema privado.
 export const publicSite = {
   product: {
@@ -20,13 +22,15 @@ export const sections = [
   { id: "compra", label: "Comprá", number: "04" },
 ];
 // Inicio: tomas reales del provo, con encuadres y exposicion por foto.
-export const heroPhotos = [
+const originalHeroPhotos = [
   { id: "provo-plancha", image: "/images/image1.jpg", alt: "Provolone dorado con queso fundido sobre una tabla oscura", position: "50% 56%", mobilePosition: "53% 53%", brightness: 0.83 },
   { id: "provo-oregano", image: "/images/provo/plancha-oregano.jpg", alt: "Provolone a la plancha con orégano y queso fundido", position: "50% 53%", mobilePosition: "58% 50%", brightness: 0.78 },
   { id: "provo-tabla", image: "/images/provo/plancha-tabla.jpg", alt: "Provolone dorado sobre una tabla con pan, tomates y especias", position: "50% 68%", mobilePosition: "65% 60%", brightness: 0.72 },
   { id: "provo-entero", image: "/images/provo/plancha-entero.jpg", alt: "Provolone a la plancha en primer plano sobre una tabla de madera", position: "50% 80%", mobilePosition: "62% 64%", brightness: 0.75 },
   { id: "provo-vertical", image: "/images/provo/plancha-vertical.jpg", alt: "Provolone a la plancha con queso fundido al levantarlo con una espatula", position: "50% 52%", mobilePosition: "50% 50%", brightness: 0.83 },
 ];
+const savedHeroAdjustments = cleanAdjustments(heroAdjustments, originalHeroPhotos);
+export const heroPhotos = originalHeroPhotos.map(photo => ({...photo,...savedHeroAdjustments[photo.id]}));
 export const heroSlideshow = { intervalMs: 5200, crossfadeMs: 1000 };
 export const inspirations = [
   { id: "hamburguesas", label: "Hamburguesas", image: "/images/image3.jpg", alt: "Hamburguesa con queso fundido y brasas al fondo", position: "58% 50%", mobilePosition: "72% 50%" },

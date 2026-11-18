@@ -51,18 +51,14 @@
 .public-hero-slide::after {
   content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: radial-gradient(ellipse at 50% 52%,transparent 22%,rgba(5,3,6,.28) 55%,rgba(5,3,6,.86) 100%);
+  opacity: var(--hero-shadows,1);
 }
 .public-hero-photo {
   object-fit: cover; object-position: var(--hero-mobile-position,53% 53%);
-  filter: brightness(var(--hero-brightness,.83)) brightness(.88) contrast(1.23) saturate(.85);
+  filter: var(--hero-sharpen,brightness(1)) brightness(var(--hero-brightness,.83)) brightness(.88) contrast(var(--hero-contrast,1.23)) saturate(var(--hero-saturation,.85)) sepia(var(--hero-warmth,0));
+  transform: scale(var(--hero-mobile-zoom,1));
+  transform-origin: var(--hero-mobile-position,53% 53%);
 }
-.public-hero-pause {
-  position: absolute; z-index: 3; right: 24px; bottom: 24px; display: grid; place-items: center;
-  width: 44px; height: 44px; padding: 12px; border: 0; border-radius: 50%; cursor: pointer;
-  background: rgba(16,12,17,.35); color: var(--public-paper); opacity: .45; transition: opacity .2s;
-}
-.public-hero-pause:hover, .public-hero-pause:focus-visible { opacity: 1; }
-.public-hero-pause svg { width: 20px; height: 20px; }
 .public-eyebrow {
   font-size: 10px; letter-spacing: .2em; line-height: 1.5;
   text-transform: uppercase; font-weight: 400; color: var(--public-gold);
@@ -148,6 +144,21 @@
   display: grid; place-items: center;
   background: radial-gradient(ellipse at 50% 50%,#35182e 0%,#1b101c 45%,#100c11 85%);
 }
+.public-buy::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 46%,#f5dfa0 0%,var(--public-gold) 43%,#c79838 100%); opacity: 0;
+  transition: opacity .8s ease-in-out;
+}
+.public-buy.is-inverted::before { opacity: 1; }
+.public-buy.is-inverted .public-buy-button,
+.public-buy.is-inverted .public-buy-claim { color: var(--public-purple); }
+.public-buy .public-buy-button { position: relative; transition: color .8s ease-in-out,transform .2s,filter .2s; }
+.public-buy .public-buy-claim { transition: color .8s ease-in-out; }
+@media(prefers-reduced-motion:reduce) {
+  .public-buy::before,
+  .public-buy .public-buy-button,
+  .public-buy .public-buy-claim { transition: none; }
+}
 .public-buy-button {
   display: grid; place-items: center;
   width: 144px; height: 144px; padding: 12px;
@@ -156,6 +167,12 @@
   transition: transform .2s,filter .2s;
 }
 .public-buy-button:not(:disabled):hover { transform: scale(1.05); filter: brightness(1.12); }
+.public-buy-claim {
+  position: absolute; top: calc(50% + 88px); left: 0; width: 100%; margin: 0;
+  text-align: center; color: var(--public-gold);
+  font-family: var(--public-display-font),Arial,sans-serif;
+  font-size: 32px; line-height: 1.2;
+}
 .public-buy-mark {
   display: block; width: 100%; height: 100%;
   background: currentColor;
@@ -177,11 +194,10 @@
 }
 
 @media(min-width:1024px) {
-  .public-viewport { display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; }
-  .public-panel { flex: 0 0 100%; height: 100%; min-height: 0; min-width: 0; }
+  .public-panel { height: 100%; min-height: 100%; min-width: 0; scroll-snap-stop: always; }
   .public-photo-frame { inset: 0; -webkit-mask-image: none; mask-image: none; }
   .public-hero-frame { inset: 10% 8%; -webkit-mask-image: var(--hero-vignette); mask-image: var(--hero-vignette); }
-  .public-hero-photo { object-position: var(--hero-position,50% 56%); }
+  .public-hero-photo { object-position: var(--hero-position,50% 56%); transform: scale(var(--hero-zoom,1)); transform-origin: var(--hero-position,50% 56%); }
   .public-inspiration-heading { top: 25%; left: 5vw; }
   .public-inspiration-heading h2 { font-size: clamp(110px,13vw,200px); margin-top: 22px; }
   .public-gallery { overflow-x: hidden; }
@@ -218,6 +234,7 @@
   .public-delivery-place { font-size: 28px; }
   .public-delivery-note { font-size: 11px; }
   .public-buy-button { width: 176px; height: 176px; padding: 14px; }
+  .public-buy-claim { top: calc(50% + 104px); font-size: 38px; }
 }
 @media(min-width:1024px) and (max-height:720px) {
   .public-product-art { min-height: 600px; padding-top: 115px; }

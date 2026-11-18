@@ -11,9 +11,8 @@ export default function PublicExperience({fontClass}){
  const goTo=useCallback((index,updateHash=true,focusSection=false)=>{
   const root=viewport.current,section=root?.querySelector("#"+sections[index]?.id);
   if(!section)return;
-  const desktop=window.matchMedia("(min-width: 1024px)").matches;
   const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  root.scrollTo({left:desktop?section.offsetLeft:0,top:desktop?0:section.offsetTop,behavior:reduced?"instant":"smooth"});
+  root.scrollTo({left:0,top:section.offsetTop,behavior:reduced?"instant":"smooth"});
   if(focusSection||(root.contains(document.activeElement)&&!section.contains(document.activeElement))){
    section.tabIndex=-1;
    section.focus({preventScroll:true});
@@ -30,7 +29,7 @@ export default function PublicExperience({fontClass}){
    let selected=0,largest=-1;
    panels.forEach((panel,index)=>{
     const rect=panel.getBoundingClientRect();
-    const visible=desktop.matches?Math.max(0,Math.min(rect.right,bounds.right)-Math.max(rect.left,bounds.left)):Math.max(0,Math.min(rect.bottom,bounds.bottom)-Math.max(rect.top,bounds.top));
+    const visible=Math.max(0,Math.min(rect.bottom,bounds.bottom)-Math.max(rect.top,bounds.top));
     if(visible>largest){selected=index;largest=visible;}
    });
    current.current=selected;
@@ -50,13 +49,15 @@ export default function PublicExperience({fontClass}){
    if(canScrollInside(event.target,event.deltaY))return;
    event.preventDefault();
    const now=performance.now(),direction=Math.sign(event.deltaY);
-   if(now-lastWheel>180||direction!==lastDirection){wheelSum=0;consumed=false;}
+   // La inercia de la rueda puede llegar en varias rafagas del mismo gesto.
+   // Solo habilitar otro salto tras una pausa y al terminar la transicion.
+   if((now-lastWheel>400 && now>=lockedUntil)||direction!==lastDirection){wheelSum=0;consumed=false;}
    lastWheel=now;lastDirection=direction;
    if(consumed||now<lockedUntil)return;
    wheelSum+=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?root.clientHeight:1);
    if(Math.abs(wheelSum)<28)return;
    const next=Math.max(0,Math.min(sections.length-1,current.current+Math.sign(wheelSum)));
-   consumed=true;lockedUntil=now+650;wheelSum=0;
+   consumed=true;lockedUntil=now+1000;wheelSum=0;
    if(next!==current.current)goTo(next);
   }
   function keyboard(event){
@@ -64,7 +65,7 @@ export default function PublicExperience({fontClass}){
    const element=event.target;
    if(element instanceof Element&&(element.closest("input,textarea,select,[contenteditable=true]")||element.closest("button,a")&&[" ","Enter"].includes(event.key)))return;
    if(["ArrowDown","ArrowUp","PageDown","PageUp"," "].includes(event.key)&&canScrollInside(element,event.key==="ArrowUp"||event.key==="PageUp"||event.shiftKey?-1:1))return;
-   const nextKeys=["ArrowRight","ArrowDown","PageDown"],previousKeys=["ArrowLeft","ArrowUp","PageUp"];
+   const nextKeys=["ArrowDown","PageDown"],previousKeys=["ArrowUp","PageUp"];
    let next=null;
    if(nextKeys.includes(event.key)||(event.key===" "&&!event.shiftKey))next=Math.min(3,current.current+1);
    if(previousKeys.includes(event.key)||(event.key===" "&&event.shiftKey))next=Math.max(0,current.current-1);
