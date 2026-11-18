@@ -47,3 +47,12 @@ A pedido del usuario, las fotos mobile ocupan un marco de menor altura, con fund
 Imagen provisoria de producto incorporada en public/images/provo-lt-placeholder.png; edición integrada de la imagen del usuario, con tratamiento oscuro y sin peso impreso. Origen y prompt en docs/public-assets/provo-lt-placeholder.md. No representa un envase comercial definitivo.
 
 Datos confirmados por el usuario: peso aproximado 440 g y precio por paquete UYU 395. Aplicados solo a la configuración pública. El recorrido vertical usa scroll snap obligatorio y detención en cada sección, igualando el comportamiento de encastre de la galería horizontal y evitando quedar flotando entre Inicio e Inspirate. Se mantienen los gestos nativos y la lectura del contenido que excede una pantalla.
+
+Ajuste visual: se retiraron el subtÃ­tulo de Inspirate y ambas barras de navegaciÃ³n. Se mantienen el desplazamiento, teclado, enlaces directos por hash y controles de la galerÃ­a.
+
+Inicio preparado para un pase exclusivo de fotos del provo mediante heroPhotos y heroSlideshow en la configuración pública. Se conserva una sola toma real por ahora; el usuario aportará otras. Con una foto no hay rotación ni controles. Con varias: fundido cruzado de 1 segundo cada 5,2 segundos, loop, espera de carga y pausa al salir de Inicio, ocultar la pestaña o activar movimiento reducido. Hay control de pausa/reanudación en modo automático. Todas las tomas comparten el mismo tratamiento visual; no se añadieron otras comidas ni variantes inventadas del provo.
+
+Inicio ya cuenta con cuatro tomas reales: la original image1.jpg y las nuevas plancha-oregano, plancha-tabla y plancha-entero, suministradas por el usuario. Se activa el pase automatico y el loop. Los originales adjuntos se conservaron en public/images/provo, incluyendo plancha-detalle como alternativa no seleccionada. Solo se ajustan encuadre y luminosidad mediante CSS; no se regeneraron ni sustituyeron fotografias. Next Image entrega versiones optimizadas. La pausa, pestaÃ±a oculta, salida de Inicio y movimiento reducido detienen la rotacion.
+Inicio: a pedido del usuario, se redujo el marco fotografico en desktop y mobile y se reforzaron sombras, contraste y viñeta radial. El entorno se funde hacia un negro con matiz violeta, manteniendo luz en el producto. Tratamiento solo CSS, sin modificar las fotos originales.
+
+Se sumo una quinta toma real al pase de Inicio: plancha-vertical, provista por el usuario. Se conserva el tratamiento existente; la revision de iluminacion y sombras queda pendiente por indicacion del usuario.

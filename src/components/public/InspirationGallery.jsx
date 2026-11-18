@@ -21,10 +21,10 @@ export default function InspirationGallery(){
     <div className="public-photo-frame public-food-frame">
      <Image src={photo.image} alt={photo.alt} fill sizes="100vw" className="public-food-photo" style={{"--food-position":photo.position,"--food-mobile-position":photo.mobilePosition||photo.position}}/>
     </div>
-    <figcaption><span className="public-photo-index">{"0"+(index+1)} / {"0"+photos.length}</span><span className="public-food-name">{photo.label}</span></figcaption>
+    <figcaption><span className="public-food-name">{photo.label}</span></figcaption>
    </figure>)}
   </div>
-  <div className="public-inspiration-heading"><p className="public-eyebrow">02 — A tu manera</p><h2 id="inspiration-title">Inspirate<span>.</span></h2></div>
+  <div className="public-inspiration-heading"><h2 id="inspiration-title">Inspirate<span>.</span></h2></div>
   <div className="public-gallery-bottom">
    <div className="public-categories" aria-label="Elegir preparación">{inspirations.map(item=>{
     const index=photos.findIndex(photo=>photo.id===item.id);

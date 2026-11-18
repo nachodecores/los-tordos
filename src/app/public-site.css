@@ -37,32 +37,32 @@
   -webkit-mask-image: linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent);
   mask-image: linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent);
 }
-.public-hero-frame { inset: 11% 0; }
+.public-hero { background: #08060a; }
+.public-hero-frame {
+  --hero-vignette: radial-gradient(ellipse closest-side at 50% 54%,#000 45%,rgba(0,0,0,.95) 67%,rgba(0,0,0,.3) 88%,transparent 110%);
+  inset: 16% 6%;
+  -webkit-mask-image: var(--hero-vignette);
+  mask-image: var(--hero-vignette);
+}
 .public-food-frame { inset: 14% 0; }
+.public-hero-slide { position: absolute; inset: 0; opacity: 0; z-index: 0; transition: opacity var(--public-hero-fade,1000ms) ease-in-out; }
+.public-hero-slide.is-previous { opacity: 1; z-index: 1; }
+.public-hero-slide.is-active { opacity: 1; z-index: 2; }
+.public-hero-slide::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 52%,transparent 22%,rgba(5,3,6,.28) 55%,rgba(5,3,6,.86) 100%);
+}
 .public-hero-photo {
-  object-fit: cover; object-position: 53% 53%;
-  filter: brightness(.83) contrast(1.1) saturate(.95);
+  object-fit: cover; object-position: var(--hero-mobile-position,53% 53%);
+  filter: brightness(var(--hero-brightness,.83)) brightness(.88) contrast(1.23) saturate(.85);
 }
-.public-header {
-  position: absolute; z-index: 20; top: 0; left: 0; width: 100%;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 18px; padding: 18px 24px;
-  background: linear-gradient(180deg,rgba(10,7,11,.85),rgba(10,7,11,0));
+.public-hero-pause {
+  position: absolute; z-index: 3; right: 24px; bottom: 24px; display: grid; place-items: center;
+  width: 44px; height: 44px; padding: 12px; border: 0; border-radius: 50%; cursor: pointer;
+  background: rgba(16,12,17,.35); color: var(--public-paper); opacity: .45; transition: opacity .2s;
 }
-.public-brand { display: block; flex: 0 0 88px; padding: 8px 0; }
-.public-brand img { display: block; width: 100%; height: auto; mix-blend-mode: screen; }
-.public-nav { display: flex; align-items: center; gap: clamp(5px,2vw,20px); }
-.public-nav a {
-  position: relative; padding: 15px 1px; color: rgba(246,240,226,.65);
-  text-transform: uppercase; font-size: 10px; letter-spacing: .06em; white-space: nowrap;
-  transition: color .2s;
-}
-.public-nav a:hover, .public-nav a[aria-current] { color: var(--public-gold); }
-.public-nav a[aria-current]::after {
-  position: absolute; bottom: 5px; left: 0; right: 0; height: 1px;
-  content: ""; background: var(--public-gold);
-}
-.public-nav-number { display: none; }
+.public-hero-pause:hover, .public-hero-pause:focus-visible { opacity: 1; }
+.public-hero-pause svg { width: 20px; height: 20px; }
 .public-eyebrow {
   font-size: 10px; letter-spacing: .2em; line-height: 1.5;
   text-transform: uppercase; font-weight: 400; color: var(--public-gold);
@@ -91,9 +91,6 @@
 .public-gallery-slide figcaption {
   position: absolute; z-index: 2; left: 24px; bottom: 151px; right: 24px;
   display: flex; flex-direction: column; gap: 16px;
-}
-.public-photo-index {
-  font-size: 10px; letter-spacing: .18em; font-variant-numeric: tabular-nums; color: rgba(246,240,226,.64);
 }
 .public-food-name {
   font-family: var(--public-display-font),Impact,sans-serif;
@@ -183,12 +180,8 @@
   .public-viewport { display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; }
   .public-panel { flex: 0 0 100%; height: 100%; min-height: 0; min-width: 0; }
   .public-photo-frame { inset: 0; -webkit-mask-image: none; mask-image: none; }
-  .public-hero-photo { object-position: 50% 56%; }
-  .public-header { padding: 27px 5vw; }
-  .public-brand { flex-basis: 115px; }
-  .public-nav { gap: 38px; }
-  .public-nav a { padding: 15px 0; font-size: 11px; letter-spacing: .12em; }
-  .public-nav-number { display: inline; font-size: 8px; opacity: .5; margin-right: 9px; letter-spacing: .1em; }
+  .public-hero-frame { inset: 10% 8%; -webkit-mask-image: var(--hero-vignette); mask-image: var(--hero-vignette); }
+  .public-hero-photo { object-position: var(--hero-position,50% 56%); }
   .public-inspiration-heading { top: 25%; left: 5vw; }
   .public-inspiration-heading h2 { font-size: clamp(110px,13vw,200px); margin-top: 22px; }
   .public-gallery { overflow-x: hidden; }
@@ -234,12 +227,6 @@
   .public-product-specs { margin-bottom: 20px; padding: 17px 0; }
   .public-inspiration-heading { top: 22%; }
   .public-inspiration-heading h2 { font-size: 125px; }
-}
-@media(max-width:359px) {
-  .public-header { padding-inline: 16px; gap: 12px; }
-  .public-brand { flex-basis: 70px; }
-  .public-nav { gap: 7px; }
-  .public-nav a { font-size: 9px; letter-spacing: .02em; }
 }
 @media(prefers-reduced-motion:reduce) {
   .public-site *, .public-site *::before, .public-site *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }

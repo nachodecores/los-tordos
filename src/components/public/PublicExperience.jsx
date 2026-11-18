@@ -1,14 +1,13 @@
 "use client";
-import {useCallback,useEffect,useRef,useState} from "react";
+import {useCallback,useEffect,useRef} from "react";
 import {sections} from "@/lib/public-site/config.mjs";
-import {PublicHeader} from "./PublicNavigation";
 import HeroPanel from "./HeroPanel";
 import InspirationGallery from "./InspirationGallery";
 import ProductPanel from "./ProductPanel";
 import BuyPanel from "./BuyPanel";
 
 export default function PublicExperience({fontClass}){
- const viewport=useRef(null),current=useRef(0),[active,setActive]=useState(0);
+ const viewport=useRef(null),current=useRef(0);
  const goTo=useCallback((index,updateHash=true,focusSection=false)=>{
   const root=viewport.current,section=root?.querySelector("#"+sections[index]?.id);
   if(!section)return;
@@ -34,7 +33,7 @@ export default function PublicExperience({fontClass}){
     const visible=desktop.matches?Math.max(0,Math.min(rect.right,bounds.right)-Math.max(rect.left,bounds.left)):Math.max(0,Math.min(rect.bottom,bounds.bottom)-Math.max(rect.top,bounds.top));
     if(visible>largest){selected=index;largest=visible;}
    });
-   if(current.current!==selected){current.current=selected;setActive(selected);}
+   current.current=selected;
   }
   function scroll(){if(!frame)frame=requestAnimationFrame(update);}
   function canScrollInside(target,delta){
@@ -85,7 +84,6 @@ export default function PublicExperience({fontClass}){
  },[goTo]);
  return <div className={"public-site "+fontClass} lang="es-UY">
   <a className="public-skip" href="#inspirate" onClick={event=>{event.preventDefault();goTo(1);viewport.current?.querySelector("[data-public-gallery]")?.focus({preventScroll:true});}}>Ir al contenido</a>
-  <PublicHeader active={active} onNavigate={goTo}/>
   <main ref={viewport} className="public-viewport" aria-label="Los Tordos: Inicio, Inspirate, El Provo LT y Comprá">
    <HeroPanel/><InspirationGallery/><ProductPanel/><BuyPanel/>
   </main>
