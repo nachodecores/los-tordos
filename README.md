@@ -1,13 +1,33 @@
 # Los Tordos
 
-Sitio p?blico existente, preparado para evolucionar hacia venta directa, log?stica, inventario y cobranzas.
+Sitio público existente y base de la futura plataforma de venta directa, logística, inventario y cobranzas.
 
 ## Desarrollo
 
-Node >=22. Ejecutar npm ci y npm run dev. Validar con npm run lint y npm run build. El sitio p?blico no necesita PostgreSQL ni autenticaci?n.
+Node recomendado: 22.13 o posterior para las herramientas de desarrollo actualizadas. Ejecutar `npm ci` y `npm run dev`. Validar con `npm run lint`, `npm test` y `npm run build`. Build y pruebas también se comprobaron con Node 22.10 instalado en este equipo.
 
-## Separaci?n del tambo
+El sitio público no necesita PostgreSQL ni autenticación. Las variables nuevas se documentan en .env.example; se configuran localmente en .env.local, nunca en Git.
 
-El c?digo hist?rico fue retirado de las rutas operativas, junto con sus API, login, modelos e importadores. La demo independiente est? en ../lostordos-tambo-demo y el historial Git en ../lostordos-tambo-respaldo-privado. No se modific? la base remota, el archivo .env local ni la infraestructura.
+## Acceso del equipo
 
-Ver docs/separacion-tambo.md. La nueva base, cuentas y permisos todav?a no est?n implementados. No ejecutar migraciones hist?ricas contra la futura base comercial.
+El módulo de autenticación por invitación está implementado localmente con Supabase Auth. Para configuración, pruebas y activación, ver [docs/autenticacion.md](docs/autenticacion.md).
+
+Sin las nuevas variables de entorno, el sitio público funciona y el acceso privado permanece cerrado. No se aplicaron migraciones ni se modificó el proyecto Supabase remoto. Según la decisión del usuario, se reutilizará el proyecto Supabase existente tras revisar su contenido y la limpieza de los objetos del tambo.
+
+## Conservación del tambo
+
+La demo independiente está en ../lostordos-tambo-demo y el historial Git completo en ../lostordos-tambo-respaldo-privado. Son carpetas locales externas a este repositorio; el push del sitio no las respalda.
+
+El código ganadero fue retirado de las rutas operativas, junto con sus API, login, modelos e importadores. Ver [docs/separacion-tambo.md](docs/separacion-tambo.md).
+
+## Contexto funcional
+
+[Documento maestro](docs/documento-maestro.md). Las decisiones posteriores aprobadas por el usuario prevalecen. Ningún módulo adicional ni despliegue se realiza sin aprobación.
+
+## Catalogo, clientes y borradores
+
+Implementacion local de la primera entrega comercial. Activacion de la migracion y verificacion: [docs/modulo-comercial-clientes.md](docs/modulo-comercial-clientes.md). Administracion gestiona clientes y productos. No hay borradores manuales ni operativa de pedidos habilitada.
+
+Mapa y cobertura: [guía de activación](docs/mapa-cobertura.md).
+
+Stock por repartidor: [guía de activación](docs/stock-repartidores.md).
