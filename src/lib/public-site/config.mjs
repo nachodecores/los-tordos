@@ -2,10 +2,10 @@
 export const publicSite = {
   product: {
     name: "El Provo LT",
-    approximateWeightGrams: null,
-    packagePriceUyu: null,
+    approximateWeightGrams: 440,
+    packagePriceUyu: 395,
     conservation: null,
-    packagedPhoto: null,
+    packagedPhoto: "/images/provo-lt-placeholder.png",
   },
   // Completar solamente con el numero empresarial confirmado, con codigo de pais.
   whatsappNumber: null,

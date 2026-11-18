@@ -18,7 +18,9 @@ export default function InspirationGallery(){
  return <section id="inspirate" className="public-panel public-inspiration" aria-labelledby="inspiration-title">
   <div className="public-gallery" data-public-gallery ref={track} tabIndex={0} aria-roledescription="carrusel" aria-label="Formas de disfrutar el queso. Usá las flechas para recorrer las fotos." onKeyDown={keys} onScroll={()=>{const el=track.current;if(el)setActive(Math.round(el.scrollLeft/el.clientWidth));}}>
    {photos.map((photo,index)=><figure className="public-gallery-slide" key={photo.id} role="group" aria-roledescription="diapositiva" aria-label={(index+1)+" de "+photos.length+": "+photo.label}>
-    <Image src={photo.image} alt={photo.alt} fill sizes="100vw" className="public-food-photo" style={{"--food-position":photo.position,"--food-mobile-position":photo.mobilePosition||photo.position}}/>
+    <div className="public-photo-frame public-food-frame">
+     <Image src={photo.image} alt={photo.alt} fill sizes="100vw" className="public-food-photo" style={{"--food-position":photo.position,"--food-mobile-position":photo.mobilePosition||photo.position}}/>
+    </div>
     <figcaption><span className="public-photo-index">{"0"+(index+1)} / {"0"+photos.length}</span><span className="public-food-name">{photo.label}</span></figcaption>
    </figure>)}
   </div>

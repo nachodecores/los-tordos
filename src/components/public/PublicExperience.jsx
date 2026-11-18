@@ -1,7 +1,7 @@
 "use client";
 import {useCallback,useEffect,useRef,useState} from "react";
 import {sections} from "@/lib/public-site/config.mjs";
-import {PublicHeader,PublicProgress} from "./PublicNavigation";
+import {PublicHeader} from "./PublicNavigation";
 import HeroPanel from "./HeroPanel";
 import InspirationGallery from "./InspirationGallery";
 import ProductPanel from "./ProductPanel";
@@ -89,6 +89,5 @@ export default function PublicExperience({fontClass}){
   <main ref={viewport} className="public-viewport" aria-label="Los Tordos: Inicio, Inspirate, El Provo LT y Comprá">
    <HeroPanel/><InspirationGallery/><ProductPanel/><BuyPanel/>
   </main>
-  <PublicProgress active={active} onNavigate={goTo}/>
  </div>;
 }

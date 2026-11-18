@@ -39,3 +39,11 @@ src/app/page.jsx, src/app/public-site.css, src/components/public/, src/lib/publi
 ## Revision
 
 Verificar desktop y mobile, rueda vertical, desplazamiento horizontal, teclado dentro y fuera de galeria, enlaces, movimiento reducido y pantallas pequeÃ±as. El boton permanece sin operacion mientras no exista un telefono confirmado. No hay carrito, formularios de pedido ni recetas definitivas.
+
+## Ajuste posterior a la primera revision
+
+A pedido del usuario, las fotos mobile ocupan un marco de menor altura, con fundido hacia el fondo oscuro: reduce el acercamiento y muestra mas de cada toma. Desktop conserva el encuadre completo. La seccion Compra muestra solo el simbolo de WhatsApp centrado, amarillo Los Tordos sobre violeta, sin texto visible, marco ni simbolo del ave. Se aplica color mediante mascara CSS, conservando intacto el archivo SVG original. El control mantiene nombre accesible y permanece deshabilitado hasta configurar un numero confirmado.
+
+Imagen provisoria de producto incorporada en public/images/provo-lt-placeholder.png; edición integrada de la imagen del usuario, con tratamiento oscuro y sin peso impreso. Origen y prompt en docs/public-assets/provo-lt-placeholder.md. No representa un envase comercial definitivo.
+
+Datos confirmados por el usuario: peso aproximado 440 g y precio por paquete UYU 395. Aplicados solo a la configuración pública. El recorrido vertical usa scroll snap obligatorio y detención en cada sección, igualando el comportamiento de encastre de la galería horizontal y evitando quedar flotando entre Inicio e Inspirate. Se mantienen los gestos nativos y la lectura del contenido que excede una pantalla.

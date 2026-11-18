@@ -13,10 +13,3 @@ export function PublicHeader({active,onNavigate}) {
     </nav>
   </header>;
 }
-export function PublicProgress({active,onNavigate}){
- return <nav className="public-progress" aria-label="Avance entre secciones" hidden={active===0}>
-  <span className="public-progress-name">{sections[active].label}</span>
-  <div className="public-progress-lines">{sections.map((section,index)=><a key={section.id} className={active===index?"is-current":""} href={"#"+section.id} aria-label={section.label} aria-current={active===index?"location":undefined} onClick={event=>{event.preventDefault();onNavigate(index);}}><span/></a>)}</div>
-  <span className="public-progress-count">{sections[active].number}<span> / 04</span></span>
- </nav>;
-}
