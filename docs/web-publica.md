@@ -1,0 +1,41 @@
+# Web publica: primera version del rediseño
+
+Fecha: 2026-11-18. Solo portada publica. Sistema privado, autenticacion, base de datos y tambo fuera del alcance.
+
+## Vista previa
+
+Ejecutar npm run dev (webpack). Servidor local: http://localhost:3000. No se publico ni se hizo push de esta entrega.
+
+Cuatro secciones: Inicio, Inspirate, El Provo LT y Compra. En desktop (desde 1024 px), recorrido horizontal con rueda, trackpad, teclado y enlaces. En mobile, recorrido vertical con una galeria horizontal nativa en Inspirate. El foco sale de la galeria cuando se cambia de seccion. Se respeta movimiento reducido; el contenido puede crecer en pantallas pequeñas o con zoom para evitar recortes.
+
+Inicio muestra solo la fotografia; la navegacion aparece desde Inspirate. El h1 permanece disponible para lectores de pantalla sin texto visible superpuesto. Los estilos se limitan a .public-site. No se modificaron layout.jsx, globals.css ni las rutas privadas. El idioma español se declara en el contenedor publico.
+
+## Fotografias y marca
+
+Originales intactos. Inicio usa image1.jpg, con encuadres responsive y tratamiento de contraste/iluminacion en CSS. Inspirate usa image3 (hamburguesa), image9 (scones), image8 (relleno), image2 (ensalada) e image7 (picada). Pastas esta preparada y deshabilitada hasta disponer de una foto real.
+
+No hay fotografia de la presentacion final al vacio. La seccion de producto usa provisionalmente tipografia y el simbolo original de Los Tordos; no representa un envase inventado.
+
+Se mantienen logo, colores y tipografia Knockout existentes. Imagenes mediante next/image con tamaños responsive, prioridad para la portada y carga diferida en la galeria.
+
+public/logos/whatsapp-official.svg es una copia sin modificaciones de Digital_Glyph_Green_RGB_2026.svg, extraida del paquete oficial WhatsApp Brand Resource Center descargado el 2026-11-18. Fuente y condiciones: https://www.meta.com/brand/resources/whatsapp/whatsapp-brand/. Se presenta como marca separada del simbolo de Los Tordos, sin redibujar o fusionar los logos.
+
+## Datos pendientes
+
+src/lib/public-site/config.mjs centraliza:
+- Peso aproximado (null hasta confirmacion).
+- Precio por paquete en UYU (null hasta confirmacion).
+- Texto de conservacion aprobado (null: no se publica una temperatura o plazo inventados).
+- Foto del envase final.
+- Numero empresarial de WhatsApp (null: el boton aparece como proximamente y no abre un numero ficticio).
+- Mensaje inicial editable y galeria.
+
+No se consulta Supabase. Los datos publicos no se sincronizan todavia con el catalogo privado. Los dias de reparto y corte semanal se muestran segun el nuevo pedido de diseño: miercoles/jueves/viernes; pedidos confirmados hasta viernes 15:00 para esa semana, posteriores para el siguiente ciclo. No se cambio la operativa del sistema privado.
+
+## Archivos
+
+src/app/page.jsx, src/app/public-site.css, src/components/public/, src/lib/public-site/config.mjs y el icono oficial de WhatsApp. Los componentes antiguos de la portada se conservaron sin uso en esta pagina.
+
+## Revision
+
+Verificar desktop y mobile, rueda vertical, desplazamiento horizontal, teclado dentro y fuera de galeria, enlaces, movimiento reducido y pantallas pequeñas. El boton permanece sin operacion mientras no exista un telefono confirmado. No hay carrito, formularios de pedido ni recetas definitivas.
